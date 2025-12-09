@@ -1,0 +1,32 @@
+﻿@{
+    Layout = "_Layout";
+    ViewData["Title"] = "Home";
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Lindi's Bakery - @ViewData["Title"]</title>
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+
+</head>
+<body>
+<!-- Hero Section  -->
+<section id="hero">
+    <div class="hero container">
+        <div>
+            <!--<h1>Lindi's</h1>
+            <h1>Sweet treats </h1> -->
+            <h1>Sweet treats<span></span></h1>
+                <a asp-controller="Home" asp-action="Menu" type="button" class="cta">Menu</a>
+        </div>
+    </div>
+</section>
+<!-- End Hero Section  -->
+
+    <script src="~/js/site.js"></script>
+
+</body>
+</html>
+

@@ -1,0 +1,65 @@
+﻿@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Lindi's Bakery - @ViewData["Title"]</title>
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+
+</head>
+<body>
+
+    <!-- Header -->
+    <section id="header">
+        <div class="header container">
+            <div class="nav-bar">
+                <div class="brand">
+                    <a href="#hero">
+                        <h1>Lindi's Home Bakery</h1>
+                    </a>
+                </div>
+                <div class="hamburger">
+                    <div class="bar"></div>
+                </div>
+
+                <div class="nav-list">
+                    <ul>
+                        <li><a asp-controller="Home" asp-action="Index">Home</a></li>
+                        <li><a asp-controller="Home" asp-action="About">About Us</a></li>
+                        <li><a asp-controller="Home" asp-action="Menu">Menu</a></li>
+                        <li><a asp-controller="Home" asp-action="Contacts">Contact</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- End Header -->
+   
+
+    <main class="container main-content">
+        
+        @RenderBody()
+    </main>
+
+
+    <!-- Footer -->
+    <section id="footer">
+        <div class="footer container">
+            <div class="brand">
+                <h1>Lindi's Home Bakery </h1>
+            </div>
+            <h2>Love and flavor</h2>
+
+           
+            <p>Copyright © 2025 Lindi's Home bakery. All rights reserved</p>
+        </div>
+    </section>
+
+
+    <script src="~/js/site.js"></script>
+
+</body>
+</html>
