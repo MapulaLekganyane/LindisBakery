@@ -1,0 +1,113 @@
+﻿@model LindisBakery.Models.ShoppingCart
+@using LindisBakery.Helpers
+
+@{
+    ViewData["Title"] = "Shopping Cart";
+}
+
+<div class="container mt-4">
+    <h1>Shopping Cart</h1>
+
+    @if (!Model.Items.Any())
+    {
+        <div class="alert alert-info">
+            Your cart is empty. <a href="@Url.Action("Menu", "Home")">Continue shopping</a>
+        </div>
+    }
+    else
+    {
+        <div class="row">
+            <div class="col-md-8">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Product</th>
+                            <th>Price</th>
+                            <th>Quantity</th>
+                            <th>Total</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model.Items)
+                        {
+                            <tr>
+                                <td>
+                                    <div class="d-flex align-items-center">
+                                        @if (!string.IsNullOrEmpty(item.ImageUrl))
+                                        {
+                                            <img src="@item.ImageUrl" alt="@item.ProductName"
+                                                 style="width: 50px; height: 50px; object-fit: cover;"
+                                                 class="me-3">
+                                        }
+                                        <div>
+                                            <strong>@item.ProductName</strong>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>@CurrencyHelper.FormatAmount(item.Price)</td>
+                                <td>
+                                    <form asp-action="UpdateCart" method="post" class="d-inline">
+                                        <input type="hidden" name="productId" value="@item.ProductId" />
+                                        <input type="number" name="quantity" value="@item.Quantity"
+                                               min="1" class="form-control" style="width: 80px;"
+                                               onchange="this.form.submit()">
+                                    </form>
+                                </td>
+                                <td>@CurrencyHelper.FormatAmount(item.TotalPrice)</td>
+                                <td>
+                                    <form asp-action="RemoveFromCart" method="post">
+                                        <input type="hidden" name="productId" value="@item.ProductId" />
+                                        <button type="submit" class="btn btn-danger btn-sm">
+                                            <i class="bi bi-trash"></i> Remove
+                                        </button>
+                                    </form>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+
+                <div class="d-flex justify-content-between">
+                    <a href="@Url.Action("Menu", "Home")" class="btn btn-outline-primary">
+                        <i class="bi bi-arrow-left"></i> Continue Shopping
+                    </a>
+                    <form asp-action="ClearCart" method="post">
+                        <button type="submit" class="btn btn-outline-danger">
+                            <i class="bi bi-cart-x"></i> Clear Cart
+                        </button>
+                    </form>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-header">
+                        <h5 class="card-title mb-0">Order Summary</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between mb-2">
+                            <span>Subtotal</span>
+                            <span>@CurrencyHelper.FormatAmount(Model.GetTotal())</span>
+                        </div>
+                        <div class="d-flex justify-content-between mb-3">
+                            <span>Shipping</span>
+                            <span>@CurrencyHelper.FormatAmount(40.99m)</span>
+                        </div>
+                        <hr>
+                        <div class="d-flex justify-content-between">
+                            <strong>Total</strong>
+                            <strong>@CurrencyHelper.FormatAmount((Model.GetTotal() * 1.10m + 40.99m))</strong>
+                        </div>
+                    </div>
+                    <div class="card-footer">
+                        <a href="@Url.Action("Checkout", "Cart")" class="btn btn-success w-100">
+                            <i class="bi bi-lock-fill"></i> Proceed to Checkout
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    }
+</div>

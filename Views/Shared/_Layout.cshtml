@@ -28,9 +28,14 @@
                 <div class="nav-list">
                     <ul>
                         <li><a asp-controller="Home" asp-action="Index">Home</a></li>
-                        <li><a asp-controller="Home" asp-action="About">About Us</a></li>
                         <li><a asp-controller="Home" asp-action="Menu">Menu</a></li>
+                        <li><a asp-controller="Home" asp-action="About">About Us</a></li>
                         <li><a asp-controller="Home" asp-action="Contacts">Contact</a></li>
+                        <li><a asp-controller="Home" asp-action="Cart">
+                             <i class="bi bi-cart3"></i> Cart
+                             <span id="cart-count" class="badge bg-danger">3</span>
+                            </a>
+                        </li>
                     </ul>
                 </div>
             </div>
@@ -58,8 +63,10 @@
         </div>
     </section>
 
-
     <script src="~/js/site.js"></script>
 
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    
+    
 </body>
 </html>

@@ -230,7 +230,7 @@ p {
 #hero {
     background-image: url("../images/cover.jpeg");
     background-size: cover;
-    background-position: center;
+    background-position: center
     background-repeat: no-repeat;
     height: 100vh;
     width: 100%;
@@ -515,46 +515,27 @@ p {
 }
 
     #footer .footer {
-        min-height: 200px;
+        min-height: 5px;
         flex-direction: column;
-        padding-top: 50px;
-        padding-bottom: 10px;
+        padding-top: 5px;
+        padding-bottom: 5px;
     }
 
     #footer h1 {
         font-family: "Edu NSW ACT Foundation", Cursive;
         font-style: italic;
+        font-size: 1.2rem;
     }
 
     #footer h2 {
         color: white;
         font-weight: 500;
-        font-size: 1.8rem;
+        font-size: 1.5rem;
         letter-spacing: 0.1rem;
-        margin-top: 10px;
-        margin-bottom: 10px;
+        margin-top: 5px;
+        margin-bottom: 5px;
         font-family: cursive;
     }
-
-    #footer .social-icon {
-        display: flex;
-        margin-bottom: 30px;
-    }
-
-    #footer .social-item {
-        height: 50px;
-        width: 50px;
-        margin: 0 5px;
-    }
-
-        #footer .social-item img {
-            filter: grayscale(0);
-            transition: 0.3s ease filter;
-        }
-
-        #footer .social-item:hover img {
-            filter: grayscale(0);
-        }
 
     #footer p {
         color: white;
@@ -768,3 +749,529 @@ p {
 /* End  Media Query For Desktop */
 
 
+/* CART CSS*/
+/* ===== CART PAGE STYLES ===== */
+
+/* Container styling */
+.container.mt-4 {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 100px 20px;
+    background-color: #fff;
+    border-radius: 12px;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+    flex-direction: column;
+}
+
+/* Default (inactive) button: white background, pink border */
+.btn-outline-pink {
+    background-color: #ffffff;
+    color: rgb(235, 67, 126);
+    border: 2px solid rgb(235, 67, 126);
+    border-radius: 12px;
+    font-weight: 500;
+}
+
+    /* Hover: light pink background, border stays */
+    .btn-outline-pink:hover,
+    .btn-outline-pink:focus {
+        background-color: rgba(235, 67, 126, 0.08);
+        color: rgb(235, 67, 126);
+        border: 2px solid rgb(235, 67, 126);
+    }
+
+/* Active / selected button: filled pink WITH border */
+.btn-pink {
+    background-color: rgb(235, 67, 126);
+    color: #ffffff;
+    border: 2px solid rgb(235, 67, 126);
+    border-radius: 12px;
+    font-weight: 500;
+}
+
+    /* Active hover: darker pink, border still visible */
+    .btn-pink:hover,
+    .btn-pink:focus {
+        background-color: rgb(215, 57, 116);
+        border: 2px solid rgb(215, 57, 116);
+        color: #ffffff;
+    }
+
+/* Smooth interaction */
+.btn {
+    transition: background-color 0.2s ease, color 0.2s ease;
+}
+/* Pill shape */
+.btn-pink,
+.btn-outline-pink {
+    border-radius: 999px; /* true pill shape */
+    padding: 10px 22px; /* balanced height & width */
+}
+
+.cart-toast {
+    position: fixed;
+    bottom: 30px;
+    left: 50%;
+    transform: translateX(-50%) translateY(10px);
+    background-color: rgb(235, 67, 126);
+    color: #ffffff;
+    padding: 12px 22px;
+    border-radius: 999px;
+    font-size: 0.9rem;
+    font-weight: 500;
+    text-align: center;
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.15);
+    z-index: 1050;
+    opacity: 0;
+    
+}
+
+/* Fade + slide up animation */
+@keyframes toastFadeUp {
+    0% {
+        opacity: 0;
+        transform: translateX(-50%) translateY(10px);
+    }
+
+    15% {
+        opacity: 1;
+        transform: translateX(-50%) translateY(0);
+    }
+
+    85% {
+        opacity: 1;
+        transform: translateX(-50%) translateY(0);
+    }
+
+    100% {
+        opacity: 0;
+        transform: translateX(-50%) translateY(10px);
+    }
+}
+
+
+
+
+
+    /* Centered header */
+    .container.mt-4 h1 {
+        text-align: center;
+        color: rgb(235, 67, 126);
+        font-size: 2.5rem;
+        margin-bottom: 40px;
+        padding-bottom: 20px;
+        border-bottom: 2px solid #f0a1a1;
+        font-weight: 700;
+    }
+
+/* Alert styling */
+.alert.alert-info {
+    text-align: center;
+    padding: 30px;
+    background-color: #f8f9fa;
+    border: 1px solid #e9ecef;
+    border-radius: 8px;
+    margin: 50px auto;
+    max-width: 600px;
+    
+}
+
+    .alert.alert-info a {
+        color: rgb(235, 67, 126);
+        text-decoration: none;
+        font-weight: 600;
+        
+    }
+
+        .alert.alert-info a:hover {
+            text-decoration: underline;
+            background-color: rgb(235, 67, 126);
+        }
+
+/* Row and column layout */
+.row {
+    display: flex;
+    flex-wrap: wrap;
+    margin: 0 -10px;
+    margin-top: 40px;
+    
+}
+
+.col-md-8, .col-md-4 {
+    padding: 0 20px 20px;
+    box-sizing: border-box;
+}
+
+.col-md-8 {
+    width: 66.6667%;
+}
+
+.col-md-4 {
+    width: 33.3333%;
+    
+}
+
+/* Table styling */
+.table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 30px;
+    background: white;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+}
+
+    .table thead {
+        background-color: #f8d7da;
+    }
+
+    .table th {
+        padding: 16px 12px;
+        text-align: left;
+        font-weight: 600;
+        color: #721c24;
+        border-bottom: 2px solid #f5c6cb;
+    }
+
+        .table th:nth-child(2),
+        .table th:nth-child(3),
+        .table th:nth-child(4),
+        .table th:nth-child(5) {
+            text-align: center;
+        }
+
+    .table td {
+        padding: 16px 12px;
+        border-bottom: 1px solid #e9ecef;
+        vertical-align: middle;
+    }
+
+        .table td:nth-child(2),
+        .table td:nth-child(3),
+        .table td:nth-child(4),
+        .table td:nth-child(5) {
+            text-align: center;
+        }
+
+    .table tbody tr:hover {
+        background-color: #f9f9f9;
+    }
+
+    /* Cart item image */
+    .table img {
+        width: 50px;
+        height: 50px;
+        object-fit: cover;
+        border-radius: 6px;
+        border: 1px solid #ddd;
+    }
+
+.d-flex.align-items-center {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.me-3 {
+    margin-right: 12px !important;
+}
+
+/* Quantity input */
+.form-control {
+    width: 80px;
+    padding: 8px 12px;
+    border: 1px solid #ced4da;
+    border-radius: 4px;
+    font-size: 14px;
+    text-align: center;
+    margin: 0 auto;
+    display: block;
+}
+
+    .form-control:focus {
+        outline: none;
+        border-color: #d32f2f;
+        box-shadow: 0 0 0 3px rgba(211, 47, 47, 0.1);
+    }
+
+/* Remove button */
+.btn-danger.btn-sm {
+    background-color: #dc3545;
+    border-color: #dc3545;
+    color: white;
+    padding: 6px 12px;
+    font-size: 14px;
+    border-radius: 4px;
+    cursor: pointer;
+    border: none;
+    transition: all 0.2s ease;
+}
+
+    .btn-danger.btn-sm:hover {
+        background-color: #c82333;
+        border-color: #bd2130;
+        transform: translateY(-1px);
+    }
+
+/* Cart action buttons */
+.d-flex.justify-content-between {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 30px;
+    padding: 20px;
+    background: #f8f9fa;
+    border-radius: 8px;
+}
+
+.btn-outline-primary,
+.btn-outline-danger {
+    padding: 10px 20px;
+    border-radius: 6px;
+    font-weight: 500;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    transition: all 0.2s ease;
+}
+
+.btn-outline-primary {
+    color: #d32f2f;
+    border: 1px solid #d32f2f;
+    background: transparent;
+}
+
+    .btn-outline-primary:hover {
+        background-color: #d32f2f;
+        color: white;
+        text-decoration: none;
+    }
+
+.btn-outline-danger {
+    color: #dc3545;
+    border: 1px solid #dc3545;
+    background: transparent;
+    cursor: pointer;
+}
+
+    .btn-outline-danger:hover {
+        background-color: #dc3545;
+        color: white;
+    }
+
+/* Order summary card */
+.card {
+    background: white;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 3px 15px rgba(0, 0, 0, 0.08);
+    border: 1px solid #e9ecef;
+}
+
+.card-header {
+    background-color: #d32f2f;
+    color: white;
+    padding: 18px 20px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.card-title.mb-0 {
+    margin: 0;
+    font-size: 1.25rem;
+    font-weight: 600;
+}
+
+.card-body {
+    padding: 25px;
+}
+
+.card-footer {
+    padding: 20px;
+    background-color: #f8f9fa;
+    border-top: 1px solid #e9ecef;
+}
+
+/* Order summary items */
+.d-flex.justify-content-between {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 12px;
+    padding-bottom: 12px;
+    border-bottom: 1px dashed #dee2e6;
+}
+
+    .d-flex.justify-content-between:last-of-type {
+        border-bottom: none;
+        margin-bottom: 0;
+    }
+
+.mb-2 {
+    margin-bottom: 12px !important;
+}
+
+.mb-3 {
+    margin-bottom: 16px !important;
+}
+
+/* Total amount */
+.d-flex.justify-content-between strong {
+    font-size: 1.1rem;
+    color: #d32f2f;
+}
+
+/* Checkout button */
+.btn-success.w-100 {
+    width: 100%;
+    padding: 14px;
+    background-color: #28a745;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-weight: 600;
+    font-size: 16px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    transition: all 0.2s ease;
+}
+
+    .btn-success.w-100:hover {
+        background-color: #218838;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(40, 167, 69, 0.2);
+        text-decoration: none;
+    }
+
+/* Horizontal rule */
+hr {
+    border: none;
+    height: 1px;
+    background-color: #e9ecef;
+    margin: 20px 0;
+}
+
+/* Responsive Design */
+@media (max-width: 992px) {
+    .col-md-8,
+    .col-md-4 {
+        width: 100%;
+        margin-bottom: 30px;
+    }
+
+    .row {
+        flex-direction: column;
+    }
+
+    .d-flex.justify-content-between {
+        flex-direction: column;
+        gap: 15px;
+    }
+
+    .btn-outline-primary,
+    .btn-outline-danger {
+        width: 100%;
+        text-align: center;
+        justify-content: center;
+    }
+}
+
+@media (max-width: 768px) {
+    .container.mt-4 h1 {
+        font-size: 2rem;
+    }
+
+    .table {
+        display: block;
+        overflow-x: auto;
+    }
+
+        .table th,
+        .table td {
+            padding: 12px 8px;
+            font-size: 14px;
+        }
+
+    .d-flex.align-items-center {
+        flex-direction: column;
+        text-align: center;
+        gap: 8px;
+    }
+
+    .me-3 {
+        margin-right: 0 !important;
+        margin-bottom: 8px;
+    }
+
+    .card-body {
+        padding: 20px 15px;
+    }
+}
+
+/* Price formatting */
+.table td:nth-child(2),
+.table td:nth-child(4),
+.card-body span:nth-child(2) {
+    font-weight: 600;
+    color: #333;
+}
+
+/* Shipping cost styling */
+.card-body .d-flex.justify-content-between:nth-child(3) span:nth-child(2) {
+    color: #28a745;
+    font-weight: 600;
+}
+
+/* Empty cart message enhancement */
+.alert.alert-info {
+    font-size: 1.1rem;
+}
+
+    .alert.alert-info a {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        margin-top: 10px;
+        padding: 10px 20px;
+        background-color: #d32f2f;
+        color: white;
+        border-radius: 6px;
+        transition: all 0.2s ease;
+    }
+
+        .alert.alert-info a:hover {
+            background-color: #b71c1c;
+            text-decoration: none;
+            transform: translateY(-2px);
+        }
+
+/* Cart badge for item count (if you have it elsewhere) */
+.badge.bg-danger {
+    background-color: #d32f2f !important;
+    color: white;
+    padding: 4px 8px;
+    border-radius: 12px;
+    font-size: 12px;
+    font-weight: 600;
+    margin-left: 5px;
+}
+
+/* Form styling */
+form.d-inline,
+form.d-inline-block {
+    display: inline;
+}
+
+/* Quantity form alignment */
+form.d-inline-block {
+    display: inline-block;
+    vertical-align: middle;
+}
+
+/* Remove button form */
+form.d-inline {
+    display: inline;
+}

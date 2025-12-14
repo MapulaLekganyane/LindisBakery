@@ -253,3 +253,4 @@ C:\Users\user\source\repos\LindisBakery\obj\Debug\net8.0\refint\LindisBakery.dll
 C:\Users\user\source\repos\LindisBakery\obj\Debug\net8.0\LindisBakery.pdb
 C:\Users\user\source\repos\LindisBakery\obj\Debug\net8.0\LindisBakery.genruntimeconfig.cache
 C:\Users\user\source\repos\LindisBakery\obj\Debug\net8.0\ref\LindisBakery.dll
+C:\Users\user\source\repos\LindisBakery\obj\Debug\net8.0\LindisBakery.sourcelink.json

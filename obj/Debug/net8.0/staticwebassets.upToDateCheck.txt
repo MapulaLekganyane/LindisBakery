@@ -42,6 +42,7 @@ C:\Users\user\.nuget\packages\bootstrap\5.3.8\contentFiles\any\any\wwwroot\js\bo
 C:\Users\user\.nuget\packages\bootstrap\5.3.8\contentFiles\any\any\wwwroot\js\bootstrap.js.map
 C:\Users\user\.nuget\packages\bootstrap\5.3.8\contentFiles\any\any\wwwroot\js\bootstrap.min.js
 C:\Users\user\.nuget\packages\bootstrap\5.3.8\contentFiles\any\any\wwwroot\js\bootstrap.min.js.map
+wwwroot\css\site.css
 wwwroot\favicon.ico
 wwwroot\images\blueberry.jpeg
 wwwroot\images\cover.jpeg
@@ -49,7 +50,6 @@ wwwroot\images\customer.jpeg
 wwwroot\images\logo.jpeg
 wwwroot\images\packet.jpeg
 wwwroot\images\PriceList.jpeg
-wwwroot\js\site.js
 wwwroot\lib\bootstrap\dist\css\bootstrap-grid.css
 wwwroot\lib\bootstrap\dist\css\bootstrap-grid.css.map
 wwwroot\lib\bootstrap\dist\css\bootstrap-grid.min.css
@@ -107,4 +107,4 @@ wwwroot\lib\jquery\dist\jquery.js
 wwwroot\lib\jquery\dist\jquery.min.js
 wwwroot\lib\jquery\dist\jquery.min.map
 wwwroot\lib\jquery\LICENSE.txt
-wwwroot\css\site.css
+wwwroot\js\site.js

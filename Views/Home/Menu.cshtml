@@ -1,5 +1,70 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
+﻿@model IEnumerable< LindisBakery.Models.Product>
+@using LindisBakery.Helpers
 @{
+    ViewData["Title"] = "Our Menu";
 }
+
+<div class="container mt-4">
+    <h1 class="text-center mb-4">Our Delicious Menu</h1>
+
+    <!-- Category Filter -->
+    <div class="mb-4 text-center">
+        <a href="@Url.Action("Menu", "Home")"
+           class="btn @(ViewBag.Category == null ? "btn-pink" : "btn-outline-pink") me-2">
+            All Items
+        </a>
+
+        @foreach (var category in ViewBag.Categories)
+        {
+            <a href="@Url.Action("Menu", "Home", new { category = category })"
+               class="btn @(ViewBag.Category == category ? "btn-pink" : "btn-outline-pink") me-2">
+                @category
+            </a>
+        }
+    </div>
+
+
+
+    <div id="cartToast" class="cart-toast" style="opacity: 0;">
+        ✔ Added to cart!
+    </div>
+
+    @if (TempData["Success"] != null)
+    {
+        <div id="cartToast" class="cart-toast">
+            @TempData["Success"]
+        </div>
+    }
+    
+
+
+    <div class="row">
+        @foreach (var product in Model)
+        {
+            <div class="col-md-4 mb-4">
+                <div class="card h-100">
+                    <img src="@product.ImageUrl" class="card-img-top"
+                         alt="@product.Name" style="height: 200px; object-fit: cover;">
+                    <div class="card-body d-flex flex-column">
+                        <h5 class="card-title">@product.Name</h5>
+                        <p class="card-text">@product.Description</p>
+                        <p class="card-text"><strong>Price: @CurrencyHelper.FormatAmount(product.Price)</strong></p>
+                        <div class="mt-auto">
+                            <form asp-controller="Home" asp-action="AddToCart" method="post" class="d-flex">
+                                <input type="hidden" name="productId" value="@product.Id" />
+                                <div class="input-group">
+                                    <input type="number" name="quantity" value="1" min="1"
+                                           class="form-control" style="width: 80px;">
+                                    <button type="submit" class="btn btn-success add-to-cart-btn">
+                                        <i class="bi bi-cart-plus"></i> Add to Cart
+                                    </button>
+
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>
