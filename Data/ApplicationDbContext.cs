@@ -9,13 +9,23 @@ namespace LindisBakery.Data
             : base(options) { }
 
         public DbSet<Product> Products { get; set; }
+        public DbSet<Order> Orders { get; set; }
+        public DbSet<OrderItem> OrderItems { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
 
-            // Seed sample data
-            modelBuilder.Entity<Product>().HasData(
+            // Configure Order-OrderItem relationship
+            modelBuilder.Entity<Order>()
+                .HasMany(o => o.OrderItems)
+                .WithOne(oi => oi.Order)
+                .HasForeignKey(oi => oi.OrderId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+   
+// Seed sample data
+modelBuilder.Entity<Product>().HasData(
                 new Product
                 {
                     Id = 1,

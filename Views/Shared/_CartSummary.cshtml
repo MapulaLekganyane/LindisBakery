@@ -1,0 +1,30 @@
+﻿@model LindisBakery.Models.ShoppingCart
+
+<div class="cart-summary">
+    @if (Model?.Items == null || !Model.Items.Any())
+    {
+        <span>Your cart is empty</span>
+    }
+    else
+    {
+        <ul class="list-unstyled mb-2">
+            @foreach (var item in Model.Items)
+            {
+                <li class="mb-1">
+                    @item.ProductName x @item.Quantity - R @item.TotalPrice:F2
+                    <form asp-action="RemoveFromCart" method="post" class="d-inline">
+                        <input type="hidden" name="productId" value="@item.ProductId" />
+                        <button type="submit" class="btn btn-sm btn-outline-danger">Remove</button>
+                    </form>
+                </li>
+            }
+        </ul>
+        <div class="d-flex justify-content-between">
+            <strong>Total:</strong>
+            <strong>R @Model.GetTotal():F2</strong>
+        </div>
+        <a href="@Url.Action("Cart", "Home")" class="btn btn-sm btn-primary mt-2 w-100">
+            View Cart / Checkout
+        </a>
+    }
+</div>

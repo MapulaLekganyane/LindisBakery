@@ -1,0 +1,26 @@
+﻿<div class="confirmation-wrapper">
+    <div class="confirmation-box">
+
+        @if (ViewBag.SuccessMessage != null)
+        {
+            <h3 class="text-success">@ViewBag.SuccessMessage</h3>
+        }
+
+        @if (ViewBag.OrderNumber != null)
+        {
+            <p><strong>Order Number:</strong> @ViewBag.OrderNumber</p>
+        }
+
+        <div class="icon">✔</div>
+        <h2>Order Confirmed!</h2>
+
+        <p>
+            Thank you for shopping with Lindi's Home Bakery.
+            Your order was placed successfully.
+        </p>
+
+        <a asp-action="Menu" class="btn-confirm">
+            Continue Shopping
+        </a>
+    </div>
+</div>
