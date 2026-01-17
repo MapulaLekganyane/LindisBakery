@@ -181,7 +181,10 @@ namespace LindisBakery.Controllers
                 order.CustomerName,
                 order.PaymentMethod,
                 order.Total
+
             );
+            // Send admin notification
+            _ = _emailService.SendAdminOrderNotificationAsync(order);
 
             _cart.Clear();
 

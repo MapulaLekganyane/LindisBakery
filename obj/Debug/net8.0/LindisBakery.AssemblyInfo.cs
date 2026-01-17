@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("LindisBakery")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+c74f4c9ec7650f545f4720a6a73a6c80005181a6")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+a0f7df3aeb9e3f3bb19a960583b8e25c88e71725")]
 [assembly: System.Reflection.AssemblyProductAttribute("LindisBakery")]
 [assembly: System.Reflection.AssemblyTitleAttribute("LindisBakery")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

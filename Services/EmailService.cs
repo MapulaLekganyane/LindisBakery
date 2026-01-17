@@ -1,4 +1,5 @@
-﻿using System.Net;
+﻿using LindisBakery.Models;
+using System.Net;
 using System.Net.Mail;
 
 namespace LindisBakery.Data
@@ -56,5 +57,68 @@ namespace LindisBakery.Data
                 _logger.LogError(ex, "Failed to send order confirmation email");
             }
         }
+
+
+        public async Task SendAdminOrderNotificationAsync(Order order)
+        {
+            try
+            {
+                // Get SMTP settings
+                var smtp = _config.GetSection("SmtpSettings");
+
+                if (!int.TryParse(smtp["Port"], out int port))
+                    throw new InvalidOperationException("Invalid SMTP port");
+
+                using var client = new SmtpClient(smtp["Host"], port)
+                {
+                    Credentials = new NetworkCredential(smtp["Username"], smtp["Password"]),
+                    EnableSsl = smtp.GetValue<bool>("EnableSsl")
+                };
+
+                // Get admin emails
+                var adminSettings = _config.GetSection("AdminSettings");
+                var adminEmails = new List<string> { adminSettings["AdminEmail"] };
+
+                if (!string.IsNullOrEmpty(adminSettings["AdditionalAdminEmails"]))
+                {
+                    adminEmails.AddRange(adminSettings["AdditionalAdminEmails"]
+                        .Split(',', StringSplitOptions.RemoveEmptyEntries)
+                        .Select(e => e.Trim()));
+                }
+
+                // Compose email
+                using var message = new MailMessage
+                {
+                    From = new MailAddress(smtp["SenderEmail"], smtp["SenderName"]),
+                    Subject = $"New Order Received - {order.OrderNumber}",
+                    IsBodyHtml = true,
+                    Body = $@"
+                <h2>New Order Received!</h2>
+                <p><strong>Order Number:</strong> {order.OrderNumber}</p>
+                <p><strong>Customer:</strong> {order.CustomerName} ({order.CustomerEmail})</p>
+                <p><strong>Phone:</strong> {order.CustomerPhone}</p>
+                <p><strong>Payment Method:</strong> {order.PaymentMethod}</p>
+                <p><strong>Total:</strong> R {order.Total:F2}</p>
+                <h3>Order Items:</h3>
+                <ul>
+                    {string.Join("", order.Items.Select(i => $"<li>{i.ProductName} x {i.Quantity} - R {i.TotalPrice:F2}</li>"))}
+                </ul>
+                <p><a href='{adminSettings["AdminUrl"]}'>View in Admin Dashboard</a></p>"
+                };
+
+                // Add all admin emails
+                foreach (var email in adminEmails)
+                    message.To.Add(email);
+
+                // Send email
+                await client.SendMailAsync(message);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Failed to send admin notification email");
+            }
+        }
+
+
     }
 }
