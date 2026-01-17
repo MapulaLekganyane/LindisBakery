@@ -50,21 +50,31 @@
                         <p class="card-text">@product.Description</p>
                         <p class="card-text"><strong>Price: @CurrencyHelper.FormatAmount(product.Price)</strong></p>
                         <div class="mt-auto">
+
                             <form asp-controller="Home" asp-action="AddToCart" method="post" class="d-flex">
                                 <input type="hidden" name="productId" value="@product.Id" />
-                                <div class="input-group">
-                                    <input type="number" name="quantity" value="1" min="1"
-                                           class="form-control" style="width: 80px;">
-                                    <button type="button"
-                                            class="btn btn-success add-to-cart-btn"
-                                            data-product-id="@product.Id">
-                                        <i class="bi bi-cart-plus"></i> Add to Cart
+
+                                <div class="d-flex align-items-center gap-2 cart-controls">
+
+                                    <button type="button" class="qty-btn minus">−</button>
+
+                                    <input type="number"
+                                           name="quantity"
+                                           class="quantity-input"
+                                           value="1"
+                                           min="1" />
+
+                                    <button type="button" class="qty-btn plus">+</button>
+
+                                    <button type="submit" class="btn btn-success">
+                                        <i class="bi bi-cart-plus"></i>
+                                        Add to Cart
                                     </button>
-
-
 
                                 </div>
                             </form>
+
+
                         </div>
                     </div>
                 </div>

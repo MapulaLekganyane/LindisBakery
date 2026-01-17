@@ -66,7 +66,7 @@ namespace LindisBakery.Data
         public async Task<Order> GetOrderByIdAsync(int id)
         {
             return await _context.Orders
-                .Include(o => o.OrderItems)
+                .Include(o => o.Items)
                 .ThenInclude(oi => oi.Product)
                 .FirstOrDefaultAsync(o => o.Id == id);
         }
@@ -74,7 +74,7 @@ namespace LindisBakery.Data
         public async Task<Order> GetOrderByNumberAsync(string orderNumber)
         {
             return await _context.Orders
-                .Include(o => o.OrderItems)
+                .Include(o => o.Items)
                 .ThenInclude(oi => oi.Product)
                 .FirstOrDefaultAsync(o => o.OrderNumber == orderNumber);
         }
@@ -82,7 +82,7 @@ namespace LindisBakery.Data
         public async Task<List<Order>> GetAllOrdersAsync()
         {
             return await _context.Orders
-                .Include(o => o.OrderItems)
+                .Include(o => o.Items)
                 .OrderByDescending(o => o.OrderDate)
                 .ToListAsync();
         }
@@ -90,7 +90,7 @@ namespace LindisBakery.Data
         public async Task<List<Order>> GetOrdersByStatusAsync(string status)
         {
             return await _context.Orders
-                .Include(o => o.OrderItems)
+                .Include(o => o.Items)
                 .Where(o => o.Status == status)
                 .OrderByDescending(o => o.OrderDate)
                 .ToListAsync();
@@ -99,7 +99,7 @@ namespace LindisBakery.Data
         public async Task<List<Order>> GetRecentOrdersAsync(int count = 10)
         {
             return await _context.Orders
-                .Include(o => o.OrderItems)
+                .Include(o => o.Items)
                 .OrderByDescending(o => o.OrderDate)
                 .Take(count)
                 .ToListAsync();

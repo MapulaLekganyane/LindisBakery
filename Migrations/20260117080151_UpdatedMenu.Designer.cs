@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace LindisBakery.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20251224174034_AddOrders")]
-    partial class AddOrders
+    [Migration("20260117080151_UpdatedMenu")]
+    partial class UpdatedMenu
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -132,21 +132,18 @@ namespace LindisBakery.Migrations
 
                     b.Property<string>("Description")
                         .IsRequired()
-                        .HasMaxLength(500)
-                        .HasColumnType("nvarchar(500)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("ImageUrl")
                         .IsRequired()
-                        .HasMaxLength(200)
-                        .HasColumnType("nvarchar(200)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("IsAvailable")
                         .HasColumnType("bit");
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<decimal>("Price")
                         .HasColumnType("decimal(18,2)");
@@ -173,7 +170,7 @@ namespace LindisBakery.Migrations
                             Description = "Traditional, supremely tender scones made with pure Devon cream for the perfect crumb.",
                             ImageUrl = "/images/packet.jpeg",
                             IsAvailable = true,
-                            Name = "Dumplings",
+                            Name = "Vanilla Scones",
                             Price = 12.99m
                         },
                         new
@@ -183,7 +180,7 @@ namespace LindisBakery.Migrations
                             Description = "Rich, dark cocoa batter loaded with premium Belgian chocolate chunks.",
                             ImageUrl = "/images/blueberry.jpeg",
                             IsAvailable = true,
-                            Name = "Chocolate Muffins",
+                            Name = "Dumpling",
                             Price = 7.99m
                         },
                         new
@@ -193,7 +190,7 @@ namespace LindisBakery.Migrations
                             Description = "Buttery, flaky scones studded with wild blueberries and a bright hint of lemon zest.",
                             ImageUrl = "/images/blueberry.jpeg",
                             IsAvailable = true,
-                            Name = "Vanilla Muffins",
+                            Name = "Vanilla Cupcake",
                             Price = 5.99m
                         },
                         new
@@ -203,7 +200,7 @@ namespace LindisBakery.Migrations
                             Description = "Cold brewed coffee with ice and milk",
                             ImageUrl = "/images/blueberry.jpeg",
                             IsAvailable = true,
-                            Name = "Chocolate Mint Muffins",
+                            Name = "Chocolate Muffins",
                             Price = 3.99m
                         });
                 });

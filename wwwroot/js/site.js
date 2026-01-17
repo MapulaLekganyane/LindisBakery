@@ -125,3 +125,33 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     });
 });
+
+// ================================
+// ADD TO CART + quanity
+// ================================
+document.addEventListener("click", function (e) {
+
+    // PLUS button
+    if (e.target.classList.contains("plus")) {
+        const input = e.target.previousElementSibling;
+        input.value = parseInt(input.value) + 1;
+    }
+
+    // MINUS button
+    if (e.target.classList.contains("minus")) {
+        const input = e.target.nextElementSibling;
+        if (parseInt(input.value) > 1) {
+            input.value = parseInt(input.value) - 1;
+        }
+    }
+
+    // ADD TO CART
+    if (e.target.closest(".add-to-cart-btn")) {
+        const button = e.target.closest(".add-to-cart-btn");
+        const container = button.closest(".cart-controls");
+        const quantity = container.querySelector(".quantity-input").value;
+        const productId = button.dataset.productId;
+
+        addToCart(productId, quantity);
+    }
+});

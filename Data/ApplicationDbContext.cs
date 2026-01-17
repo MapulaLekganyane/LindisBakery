@@ -18,7 +18,7 @@ namespace LindisBakery.Data
 
             // Configure Order-OrderItem relationship
             modelBuilder.Entity<Order>()
-                .HasMany(o => o.OrderItems)
+                .HasMany(o => o.Items)
                 .WithOne(oi => oi.Order)
                 .HasForeignKey(oi => oi.OrderId)
                 .OnDelete(DeleteBehavior.Cascade);
@@ -39,7 +39,7 @@ modelBuilder.Entity<Product>().HasData(
                 new Product
                 {
                     Id = 2,
-                    Name = "Dumplings",
+                    Name = "Vanilla Scones",
                     Description = "Traditional, supremely tender scones made with pure Devon cream for the perfect crumb.",
                     Price = 12.99m,
                     ImageUrl = "/images/packet.jpeg",
@@ -49,7 +49,7 @@ modelBuilder.Entity<Product>().HasData(
                 new Product
                 {
                     Id = 3,
-                    Name = "Chocolate Muffins",
+                    Name = "Dumpling",
                     Description = "Rich, dark cocoa batter loaded with premium Belgian chocolate chunks.",
                     Price = 7.99m,
                     ImageUrl = "/images/blueberry.jpeg",
@@ -59,7 +59,7 @@ modelBuilder.Entity<Product>().HasData(
                 new Product
                 {
                     Id = 4,
-                    Name = "Vanilla Muffins",
+                    Name = "Vanilla Cupcake",
                     Description = "Buttery, flaky scones studded with wild blueberries and a bright hint of lemon zest.",
                     Price = 5.99m,
                     ImageUrl = "/images/blueberry.jpeg",
@@ -69,7 +69,7 @@ modelBuilder.Entity<Product>().HasData(
                 new Product
                 {
                     Id = 5,
-                    Name = "Chocolate Mint Muffins",
+                    Name = "Chocolate Muffins",
                     Description = "Cold brewed coffee with ice and milk",
                     Price = 3.99m,
                     ImageUrl = "/images/blueberry.jpeg",

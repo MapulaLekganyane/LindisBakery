@@ -78,6 +78,22 @@ namespace LindisBakery.Models
         {
             return Items.Sum(i => i.TotalPrice);
         }
-    }
 
+        public void UpdateQuantity(int productId, int quantity)
+        {
+            var item = Items.FirstOrDefault(i => i.ProductId == productId);
+            if (item == null) return;
+
+            if (quantity <= 0)
+            {
+                Items.Remove(item);
+            }
+            else
+            {
+                item.Quantity = quantity;
+            }
+
+            SaveCart();
+        }
+    }
 }

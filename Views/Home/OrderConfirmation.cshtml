@@ -1,14 +1,13 @@
 ﻿<div class="confirmation-wrapper">
     <div class="confirmation-box">
-
-        @if (ViewBag.SuccessMessage != null)
+        @if (TempData["SuccessMessage"] != null)
         {
-            <h3 class="text-success">@ViewBag.SuccessMessage</h3>
+            <h3 class="text-success">@TempData["SuccessMessage"]</h3>
         }
 
-        @if (ViewBag.OrderNumber != null)
+        @if (TempData["OrderNumber"] != null)
         {
-            <p><strong>Order Number:</strong> @ViewBag.OrderNumber</p>
+            <p><strong>Order Number:</strong> @TempData["OrderNumber"]</p>
         }
 
         <div class="icon">✔</div>

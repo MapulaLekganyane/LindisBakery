@@ -12,6 +12,19 @@
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
 
 </head>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const hamburger = document.querySelector("#header .hamburger");
+        const navMenu = document.querySelector("#header .nav-list ul");
+
+        hamburger.addEventListener("click", function () {
+            hamburger.classList.toggle("active");
+            navMenu.classList.toggle("active");
+        });
+    });
+</script>
+
 <body>
 
     <!-- Header -->
@@ -36,8 +49,7 @@
                        <li> <a asp-controller="Home" asp-action="Cart" class="cart-link">
                             <i class="bi bi-cart3"></i>
                             <span class="cart-text">Cart</span>
-                            <span id="cart-count" class="cart-count-badge">0</span>
-                        </a>
+                            <span id="cart-count" class="cart-count-badge">0</span></a>
                         </li>
                     </ul>
                 </div>
@@ -70,10 +82,16 @@
         </div>
     </section>
 
-
-
     <script src="~/js/site.js" asp-append-version="true"></script>
     
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.5/jquery.validate.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validation-unobtrusive/4.0.0/jquery.validate.unobtrusive.min.js"></script>
+
+    @RenderSection("Scripts", required: false)
+
+  
 
     
 

@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
 
 namespace LindisBakery.Models
 {
@@ -9,39 +11,30 @@ namespace LindisBakery.Models
         public int Id { get; set; }
 
         [Required]
-        public string OrderNumber { get; set; } = GenerateOrderNumber();
+        public string CustomerName { get; set; } = string.Empty;
+
+        [Required, EmailAddress]
+        public string CustomerEmail { get; set; } = string.Empty;
 
         [Required]
-        public string CustomerName { get; set; }
+        public string CustomerPhone { get; set; } = string.Empty;
 
         [Required]
-        [EmailAddress]
-        public string CustomerEmail { get; set; }
-
-        [Required]
-        public string CustomerPhone { get; set; }
-
-        [Required]
-        public string ShippingAddress { get; set; }
-
-        [Required]
-        public string PaymentMethod { get; set; }
+        public string PaymentMethod { get; set; } = string.Empty;
 
         public decimal Subtotal { get; set; }
-        public decimal DeliveryFee { get; set; } = 40.99m;
+        public decimal DeliveryFee { get; set; } = 20;
         public decimal Total { get; set; }
 
         public string Status { get; set; } = "Pending";
-        public string Notes { get; set; }
-
+        public string OrderNumber { get; set; } = Guid.NewGuid().ToString()[..8];
         public DateTime OrderDate { get; set; } = DateTime.Now;
+        public string Notes { get; set; } = string.Empty;
+
         public DateTime? CompletedDate { get; set; }
 
-        public List<OrderItem> OrderItems { get; set; } = new List<OrderItem>();
-
-        private static string GenerateOrderNumber()
-        {
-            return $"ORD-{DateTime.Now:yyyyMMdd}-{Guid.NewGuid().ToString().Substring(0, 6).ToUpper()}";
-        }
+        // 🔴 THIS IS THE KEY FIX
+        [ValidateNever]
+        public List<OrderItem> Items { get; set; } = new();
     }
 }

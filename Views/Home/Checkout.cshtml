@@ -1,4 +1,4 @@
-﻿@model LindisBakery.Models.ShoppingCart
+﻿@model LindisBakery.Models.Order
 
 @{
     ViewData["Title"] = "Checkout";
@@ -9,50 +9,47 @@
     <h2 class="checkout-title">Checkout</h2>
 
     <form asp-action="Checkout" method="post">
+        @Html.AntiForgeryToken()
 
         <!-- CUSTOMER DETAILS -->
         <h6 class="section-title">Customer Details</h6>
 
         <div class="form-group">
-            <input type="text" name="CustomerName" class="form-control"
-                   placeholder="Full Name" required />
+            <input asp-for="CustomerName" class="form-control" placeholder="Full Name" required />
+            <span asp-validation-for="CustomerName" class="text-danger"></span>
         </div>
 
         <div class="form-group">
-            <input type="email" name="Email" class="form-control"
-                   placeholder="Email Address" required />
+            <input asp-for="CustomerEmail" class="form-control" placeholder="Email Address" required />
+            <span asp-validation-for="CustomerEmail" class="text-danger"></span>
         </div>
 
         <div class="form-group">
-            <input type="tel" name="Phone" class="form-control"
-                   placeholder="Phone Number" required />
+            <input asp-for="CustomerPhone" class="form-control" placeholder="Phone Number" required />
+            <span asp-validation-for="CustomerPhone" class="text-danger"></span>
         </div>
 
         <!-- PAYMENT METHOD -->
         <h4 class="section-title">Payment Method</h4>
 
         <div class="payment-methods">
-
             <label class="payment-option">
-                <input type="radio" name="PaymentMethod" value="Card" required>
+                <input type="radio" asp-for="PaymentMethod" value="Card" required />
                 <span>💳 Card</span>
             </label>
 
             <label class="payment-option">
-                <input type="radio" name="PaymentMethod" value="Cash">
+                <input type="radio" asp-for="PaymentMethod" value="Cash" />
                 <span>💵 Cash</span>
             </label>
 
             <label class="payment-option">
-                <input type="radio" name="PaymentMethod" value="Cash on Delivery">
+                <input type="radio" asp-for="PaymentMethod" value="Cash on Delivery" />
                 <span>🚚 Card on Delivery</span>
             </label>
-
         </div>
 
-        <button type="submit" class="btn-pink place-order-btn">
-            Place Order</button>
-
+        <button type="submit" class="btn-pink place-order-btn">Place Order</button>
     </form>
-
 </div>
+

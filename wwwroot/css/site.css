@@ -85,7 +85,7 @@ p {
 /* Header section */
 #header {
     position: fixed;
-    z-index: 1000;
+    z-index: 3000;
     left: 0;
     top: 0;
     width: 100vw;
@@ -112,7 +112,7 @@ p {
     #header .nav-list ul {
         list-style: none;
         position: absolute;
-        background-color: rgb(235, 38, 215);
+        background-color: rgb(235, 67, 126);
         width: 100vw;
         height: 100vh;
         left: 100%;
@@ -177,6 +177,7 @@ p {
         cursor: pointer;
         transform: scale(0.8);
         margin-right: 20px;
+        
     }
 
         #header .hamburger:after {
@@ -187,6 +188,7 @@ p {
             border-radius: 50%;
             border: 3px solid white;
             animation: hamburger_puls 1s ease infinite;
+            
         }
 
         #header .hamburger .bar {
@@ -230,11 +232,13 @@ p {
 #hero {
     background-image: url("../images/cover.jpeg");
     background-size: cover;
-    background-position: center
-    background-repeat: no-repeat;
+    background-position: center;
     height: 100vh;
     width: 100%;
-    z-index: 1;
+    position: relative;
+    z-index: 0;
+    background-repeat: no-repeat;
+
 }
 
     #hero::after {
@@ -247,6 +251,7 @@ p {
         background-color: black;
         opacity: 0.7;
         z-index: -1;
+        pointer-events: none;
     }
 
     #hero .hero {
@@ -1437,8 +1442,7 @@ form.d-inline {
     width: 70px;
     height: 70px;
     margin: 0 auto 20px;
-    border-radius: 50%;
-    background: rgb(235, 67, 126);
+    border-radius: 0%;
     color: white;
     font-size: 32px;
     display: flex;
@@ -1461,5 +1465,72 @@ form.d-inline {
         background: rgb(215, 50, 110);
     }
 
+    /* MENU */
+/* Cart controls layout */
+.cart-controls {
+    margin-top: 10px;
+}
 
+/* Quantity input */
+.quantity-input {
+    width: 40px;
+    height: 35px;
+    text-align: center;
+    font-size: 0.9rem;
+}
 
+/* Plus / Minus buttons */
+.qty-btn {
+    width: 34px;
+    height: 35px;
+    border: 1px solid #ccc;
+    background-color: #f8f9fa;
+    font-size: 18px;
+    font-weight: bold;
+    cursor: pointer;
+    border-radius: 6px;
+}
+
+/* Add to Cart button – real button shape */
+.add-to-cart-btn {
+    height: 38px;
+    padding: 0 16px;
+    border-radius: 20px;
+    background-color: rgb(235, 67, 126);
+    color: white;
+    font-size: 0.9rem;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    border: none;
+}
+
+    .add-to-cart-btn:hover {
+        background-color: rgb(235, 67, 126);
+    }
+
+.quantity-input::-webkit-inner-spin-button,
+.quantity-input::-webkit-outer-spin-button {
+    opacity: 0;
+}
+
+.product-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 1.5rem;
+}
+
+.product-card {
+    display: flex;
+}
+
+.card {
+    width: 100%;
+}
+
+/* Enforce uniform image size */
+.card-img-top {
+    height: 200px;
+    object-fit: cover;
+}

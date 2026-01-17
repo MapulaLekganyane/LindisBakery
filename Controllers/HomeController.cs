@@ -89,6 +89,12 @@ namespace LindisBakery.Controllers
             return RedirectToAction("Menu");
         }
 
+        [HttpPost]
+        public IActionResult UpdateCart(int productId, int quantity)
+        {
+            _cart.UpdateQuantity(productId, quantity);
+            return RedirectToAction("Cart");
+        }
 
         public IActionResult RemoveFromCart(int productId)
         {
@@ -122,69 +128,71 @@ namespace LindisBakery.Controllers
             if (!_cart.Items.Any())
                 return RedirectToAction("Menu");
 
-            return View(new Order());
+            // Create a new order with items from the cart
+            var order = new Order
+            {
+                Items = _cart.Items.Select(i => new OrderItem
+                {
+                    ProductId = i.ProductId,
+                    ProductName = i.ProductName,
+                    Quantity = i.Quantity,
+                    UnitPrice = i.Price
+                }).ToList(),
+                Subtotal = _cart.Items.Sum(i => i.Price * i.Quantity),
+                DeliveryFee = 20,
+                Total = _cart.Items.Sum(i => i.Price * i.Quantity) + 20
+            };
+
+            return View(order);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Checkout(Order order)
         {
-            try
+            if (!_cart.Items.Any())
             {
-                if (!_cart.Items.Any())
-                    ModelState.AddModelError("", "Your cart is empty.");
-
-                if (!ModelState.IsValid)
-                    return View(order);
-
-                // Calculate totals
-                order.Subtotal = _cart.Items.Sum(i => i.Price * i.Quantity);
-                order.Total = order.Subtotal + order.DeliveryFee;
-                order.Status = "Pending";
-
-                // Save Order
-                _context.Orders.Add(order);
-                await _context.SaveChangesAsync();
-
-                // Save Order Items
-                foreach (var item in _cart.Items)
-                {
-                    _context.OrderItems.Add(new OrderItem
-                    {
-                        OrderId = order.Id,
-                        ProductId = item.ProductId,
-                        ProductName = item.ProductName,
-                        UnitPrice = item.Price,
-                        Quantity = item.Quantity
-                    });
-                }
-
-                await _context.SaveChangesAsync();
-
-                // Send email confirmation
-                await _emailService.SendOrderConfirmationAsync(
-                    order.CustomerEmail,
-                    order.CustomerName,
-                    order.PaymentMethod,
-                    order.Total
-                );
-
-                // Clear cart
-                _cart.Clear();
-
-                // Pass data to confirmation view
-                ViewBag.SuccessMessage = "Your order has been placed successfully!";
-                ViewBag.OrderNumber = order.OrderNumber;
-
-                return View("OrderConfirmation");
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "Checkout failed");
-                ModelState.AddModelError("", "Something went wrong while processing your order.");
+                ModelState.AddModelError("", "Your cart is empty.");
                 return View(order);
             }
+
+            // Ensure Notes is not null
+            order.Notes ??= string.Empty;
+
+            order.Subtotal = _cart.Items.Sum(i => i.Price * i.Quantity);
+            order.DeliveryFee = 20;
+            order.Total = order.Subtotal + order.DeliveryFee;
+            order.Status = "Pending";
+            order.OrderDate = DateTime.Now;
+
+            order.Items = _cart.Items.Select(i => new OrderItem
+            {
+                ProductId = i.ProductId,
+                ProductName = i.ProductName,
+                UnitPrice = i.Price,
+                Quantity = i.Quantity
+            }).ToList();
+
+            _context.Orders.Add(order);
+            await _context.SaveChangesAsync(); // EF Core will save Order + Items
+
+            _ = _emailService.SendOrderConfirmationAsync(
+                order.CustomerEmail,
+                order.CustomerName,
+                order.PaymentMethod,
+                order.Total
+            );
+
+            _cart.Clear();
+
+            TempData["SuccessMessage"] = "Your order has been placed successfully!";
+            TempData["OrderNumber"] = order.OrderNumber;
+
+            return RedirectToAction("OrderConfirmation");
         }
+
+
+
 
         // ===========================
         // ORDER CONFIRMATION

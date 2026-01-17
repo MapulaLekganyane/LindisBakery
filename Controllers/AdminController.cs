@@ -43,7 +43,7 @@ namespace LindisBakery.Controllers
         public async Task<IActionResult> Orders(string status = null)
         {
             IQueryable<Order> ordersQuery = _context.Orders
-                .Include(o => o.OrderItems)
+                .Include(o => o.Items)
                 .OrderByDescending(o => o.OrderDate);
 
             if (!string.IsNullOrEmpty(status) && status != "All")

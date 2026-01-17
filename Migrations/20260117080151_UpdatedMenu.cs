@@ -3,10 +3,12 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
+#pragma warning disable CA1814 // Prefer jagged arrays over multidimensional
+
 namespace LindisBakery.Migrations
 {
     /// <inheritdoc />
-    public partial class AddOrders : Migration
+    public partial class UpdatedMenu : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -34,6 +36,24 @@ namespace LindisBakery.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Orders", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Products",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Price = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    ImageUrl = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Category = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    IsAvailable = table.Column<bool>(type: "bit", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Products", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -65,33 +85,17 @@ namespace LindisBakery.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
-            migrationBuilder.UpdateData(
+            migrationBuilder.InsertData(
                 table: "Products",
-                keyColumn: "Id",
-                keyValue: 1,
-                column: "Description",
-                value: "Plump, local blueberries burst in every bite of these moist, golden-topped muffins.");
-
-            migrationBuilder.UpdateData(
-                table: "Products",
-                keyColumn: "Id",
-                keyValue: 2,
-                column: "Description",
-                value: "Traditional, supremely tender scones made with pure Devon cream for the perfect crumb.");
-
-            migrationBuilder.UpdateData(
-                table: "Products",
-                keyColumn: "Id",
-                keyValue: 3,
-                column: "Description",
-                value: "Rich, dark cocoa batter loaded with premium Belgian chocolate chunks.");
-
-            migrationBuilder.UpdateData(
-                table: "Products",
-                keyColumn: "Id",
-                keyValue: 4,
-                column: "Description",
-                value: "Buttery, flaky scones studded with wild blueberries and a bright hint of lemon zest.");
+                columns: new[] { "Id", "Category", "Description", "ImageUrl", "IsAvailable", "Name", "Price" },
+                values: new object[,]
+                {
+                    { 1, "Muffins", "Plump, local blueberries burst in every bite of these moist, golden-topped muffins.", "/images/packet.jpeg", true, "Blueberry Muffins", 8.99m },
+                    { 2, "Scones", "Traditional, supremely tender scones made with pure Devon cream for the perfect crumb.", "/images/packet.jpeg", true, "Vanilla Scones", 12.99m },
+                    { 3, "Dumplings", "Rich, dark cocoa batter loaded with premium Belgian chocolate chunks.", "/images/blueberry.jpeg", true, "Dumpling", 7.99m },
+                    { 4, "Cupcakes", "Buttery, flaky scones studded with wild blueberries and a bright hint of lemon zest.", "/images/blueberry.jpeg", true, "Vanilla Cupcake", 5.99m },
+                    { 5, "Muffins", "Cold brewed coffee with ice and milk", "/images/blueberry.jpeg", true, "Chocolate Muffins", 3.99m }
+                });
 
             migrationBuilder.CreateIndex(
                 name: "IX_OrderItems_OrderId",
@@ -113,33 +117,8 @@ namespace LindisBakery.Migrations
             migrationBuilder.DropTable(
                 name: "Orders");
 
-            migrationBuilder.UpdateData(
-                table: "Products",
-                keyColumn: "Id",
-                keyValue: 1,
-                column: "Description",
-                value: "Juicy beef patty with fresh lettuce, tomato, and special sauce");
-
-            migrationBuilder.UpdateData(
-                table: "Products",
-                keyColumn: "Id",
-                keyValue: 2,
-                column: "Description",
-                value: "Classic pizza with fresh mozzarella, tomatoes, and basil");
-
-            migrationBuilder.UpdateData(
-                table: "Products",
-                keyColumn: "Id",
-                keyValue: 3,
-                column: "Description",
-                value: "Fresh romaine lettuce with Caesar dressing, croutons and parmesan");
-
-            migrationBuilder.UpdateData(
-                table: "Products",
-                keyColumn: "Id",
-                keyValue: 4,
-                column: "Description",
-                value: "Rich chocolate cake with chocolate ganache");
+            migrationBuilder.DropTable(
+                name: "Products");
         }
     }
 }
