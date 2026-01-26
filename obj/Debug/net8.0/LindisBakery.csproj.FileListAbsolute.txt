@@ -247,10 +247,10 @@ C:\Users\user\source\repos\LindisBakery\obj\Debug\net8.0\staticwebassets.build.j
 C:\Users\user\source\repos\LindisBakery\obj\Debug\net8.0\staticwebassets.build.json.cache
 C:\Users\user\source\repos\LindisBakery\obj\Debug\net8.0\staticwebassets.development.json
 C:\Users\user\source\repos\LindisBakery\obj\Debug\net8.0\staticwebassets.build.endpoints.json
-C:\Users\user\source\repos\LindisBakery\obj\Debug\net8.0\staticwebassets.upToDateCheck.txt
 C:\Users\user\source\repos\LindisBakery\obj\Debug\net8.0\LindisBa.1D66168E.Up2Date
 C:\Users\user\source\repos\LindisBakery\obj\Debug\net8.0\LindisBakery.dll
 C:\Users\user\source\repos\LindisBakery\obj\Debug\net8.0\refint\LindisBakery.dll
 C:\Users\user\source\repos\LindisBakery\obj\Debug\net8.0\LindisBakery.pdb
 C:\Users\user\source\repos\LindisBakery\obj\Debug\net8.0\LindisBakery.genruntimeconfig.cache
 C:\Users\user\source\repos\LindisBakery\obj\Debug\net8.0\ref\LindisBakery.dll
+C:\Users\user\source\repos\LindisBakery\obj\Debug\net8.0\staticwebassets.upToDateCheck.txt
