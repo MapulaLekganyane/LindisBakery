@@ -11,10 +11,11 @@
 using System;
 using System.Reflection;
 
+[assembly: Microsoft.Extensions.Configuration.UserSecrets.UserSecretsIdAttribute("6b991114-1e6b-475c-8a4b-40fc8e08be6e")]
 [assembly: System.Reflection.AssemblyCompanyAttribute("LindisBakery")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+9e554a65c7219b9275d472ad839f3498dcfcae6a")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+ce1641ee25cd4936f8e3816b23bac17b70222321")]
 [assembly: System.Reflection.AssemblyProductAttribute("LindisBakery")]
 [assembly: System.Reflection.AssemblyTitleAttribute("LindisBakery")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
