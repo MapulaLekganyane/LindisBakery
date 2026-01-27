@@ -12,31 +12,26 @@ Improve record keeping
 Support administrative tasks
 Provide a structured and scalable system
 
-***
-Technologies Used
----
+## 🛠️ Technologies Used
 
-Backend
----
-C#
-ASP.NET Core MVC
-Entity Framework Core
+**Backend:**  
+- C#  
+- ASP.NET Core MVC  
+- Entity Framework Core  
 
-Frontend
----
-HTML
-CSS
-JavaScript
+**Frontend:**  
+- HTML  
+- CSS  
+- JavaScript  
 
-Database
----
-SQL Server (LocalDB)
+**Database:**  
+- SQL Server (LocalDB)  
 
-Other Tools
----
-Git & GitHub (Version Control)
-Microsoft 365 tools for documentation and planning
+**Tools:**
+- Git & GitHub (version control)  
+- Visual Studio / Visual Studio Code  
 
+---
   ## Security & Configuration
 
 This project uses secure configuration practices:
@@ -44,7 +39,7 @@ This project uses secure configuration practices:
 - **Sensitive credentials are NOT stored in source code**  
 - Email passwords and other secrets are managed using *User Secrets* or environment variables  
 - `.gitignore` prevents local configuration files from being committed
-
+---
   
 ***
 How to Run the Project Locally
@@ -57,11 +52,12 @@ How to Run the Project Locally
 - Run Migrations
 - Update database
 - Run the project
-
+  
+---
 ### About the Author
 
-Mapula Lekganyane
-Software Developer
+- Mapula Lekganyane
+- Software Developer
 Passionate about building real-world applications with a focus on security, usability, and maintainability.
 
 GitHub: https://github.com/MapulaLekganyane
