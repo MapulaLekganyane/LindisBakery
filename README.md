@@ -55,6 +55,6 @@ This project uses secure configuration practices:
 ### About the Author
 
 - Mapula Lekganyane --- Software Developer
-Passionate about building real-world applications with a focus on security, usability, and maintainability.
+*** Passionate about building real-world applications with a focus on security, usability, and maintainability.
 
 GitHub: https://github.com/MapulaLekganyane
