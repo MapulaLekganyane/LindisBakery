@@ -4,7 +4,7 @@ A web-based management system for a bakery business designed to aid in the manag
 It is aimed at ensuring efficiency, organization, and better customer relations in the business.
 This is a software development project undertaken as part of the learning process in software development.
 
-#### Project Purpose
+### Project Purpose
 
 Lindi’s Home Bakery needed a simple digital solution to replace manual processes. This system was designed to:
 Organize customer orders
@@ -32,18 +32,16 @@ Provide a structured and scalable system
 - Visual Studio / Visual Studio Code  
 
 ---
-  ## Security & Configuration
+  ### Security & Configuration
 
 This project uses secure configuration practices:
 
 - **Sensitive credentials are NOT stored in source code**  
 - Email passwords and other secrets are managed using *User Secrets* or environment variables  
 - `.gitignore` prevents local configuration files from being committed
----
-  
-***
-How to Run the Project Locally
----
+   
+
+### How to Run the Project Locally
 
 - Clone the repository
 - Open the project in Visual Studio
@@ -56,8 +54,7 @@ How to Run the Project Locally
 ---
 ### About the Author
 
-- Mapula Lekganyane
-- Software Developer
+- Mapula Lekganyane --- Software Developer
 Passionate about building real-world applications with a focus on security, usability, and maintainability.
 
 GitHub: https://github.com/MapulaLekganyane
