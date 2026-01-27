@@ -1,11 +1,11 @@
-Lindi’s Home Bakery Management System
---------
+### Lindi’s Home Bakery Management System
+
 A web-based management system for a bakery business designed to aid in the management of daily activities in a small home-based bakery business. 
 It is aimed at ensuring efficiency, organization, and better customer relations in the business.
 This is a software development project undertaken as part of the learning process in software development.
 
-Project Purpose
---------
+#### Project Purpose
+
 Lindi’s Home Bakery needed a simple digital solution to replace manual processes. This system was designed to:
 Organize customer orders
 Improve record keeping
