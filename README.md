@@ -37,6 +37,15 @@ Other Tools
 Git & GitHub (Version Control)
 Microsoft 365 tools for documentation and planning
 
+  ## Security & Configuration
+
+This project uses secure configuration practices:
+
+- **Sensitive credentials are NOT stored in source code**  
+- Email passwords and other secrets are managed using *User Secrets* or environment variables  
+- `.gitignore` prevents local configuration files from being committed
+
+  
 ***
 How to Run the Project Locally
 ---
@@ -48,3 +57,11 @@ How to Run the Project Locally
 - Run Migrations
 - Update database
 - Run the project
+
+### About the Author
+
+Mapula Lekganyane
+Software Developer
+Passionate about building real-world applications with a focus on security, usability, and maintainability.
+
+GitHub: https://github.com/MapulaLekganyane
