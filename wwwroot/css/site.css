@@ -94,7 +94,7 @@ p {
 
     #header .header {
         min-height: 8vh;
-        background-color: rgb(235, 38, 215);
+        background-color: rgb(235, 67, 126);
         transition: 0.3s ease background-color;
     }
 
@@ -1256,14 +1256,14 @@ hr {
         gap: 8px;
         margin-top: 10px;
         padding: 10px 20px;
-        background-color: #d32f2f;
+        background-color: rgb(235, 67, 126);
         color: white;
         border-radius: 6px;
         transition: all 0.2s ease;
     }
 
         .alert.alert-info a:hover {
-            background-color: #b71c1c;
+            background-color: rgb(215, 57, 116);
             text-decoration: none;
             transform: translateY(-2px);
         }
@@ -1327,7 +1327,7 @@ hr {
         transform: scale(1);
     }
 }
-}
+
 
 
 /* Form styling */

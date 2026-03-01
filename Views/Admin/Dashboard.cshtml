@@ -1,133 +1,213 @@
-﻿@model LindisBakery.Models.Order
-@{
-    ViewData["Title"] = "Admin Dashboard";
+﻿@{
+    ViewData["Title"] = "Dashboard";
 }
 
-<div class="container-fluid">
-    <h1 class="h3 mb-4">Dashboard</h1>
+<link rel="stylesheet" href="~/css/admin.css" />
 
-    <!-- Statistics Cards -->
-    <div class="row mb-4">
-        <div class="col-xl-3 col-md-6 mb-4">
-            <div class="card border-left-primary shadow h-100 py-2">
-                <div class="card-body">
-                    <div class="row no-gutters align-items-center">
-                        <div class="col mr-2">
-                            <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
-                                Total Orders
-                            </div>
-                            <div class="h5 mb-0 font-weight-bold text-gray-800">@ViewBag.Statistics.TotalOrders</div>
-                        </div>
-                        <div class="col-auto">
-                            <i class="fas fa-shopping-cart fa-2x text-gray-300"></i>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+<div class="admin-wrapper">
 
-        <div class="col-xl-3 col-md-6 mb-4">
-            <div class="card border-left-warning shadow h-100 py-2">
-                <div class="card-body">
-                    <div class="row no-gutters align-items-center">
-                        <div class="col mr-2">
-                            <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">
-                                Pending Orders
-                            </div>
-                            <div class="h5 mb-0 font-weight-bold text-gray-800">@ViewBag.Statistics.PendingOrders</div>
-                        </div>
-                        <div class="col-auto">
-                            <i class="fas fa-clock fa-2x text-gray-300"></i>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="col-xl-3 col-md-6 mb-4">
-            <div class="card border-left-success shadow h-100 py-2">
-                <div class="card-body">
-                    <div class="row no-gutters align-items-center">
-                        <div class="col mr-2">
-                            <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
-                                Today's Revenue
-                            </div>
-                            <div class="h5 mb-0 font-weight-bold text-gray-800">R @ViewBag.Statistics.TodayRevenue.ToString("F2")</div>
-                        </div>
-                        <div class="col-auto">
-                            <i class="fas fa-rand-sign fa-2x text-gray-300"></i>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="col-xl-3 col-md-6 mb-4">
-            <div class="card border-left-info shadow h-100 py-2">
-                <div class="card-body">
-                    <div class="row no-gutters align-items-center">
-                        <div class="col mr-2">
-                            <div class="text-xs font-weight-bold text-info text-uppercase mb-1">
-                                Total Revenue
-                            </div>
-                            <div class="h5 mb-0 font-weight-bold text-gray-800">R @ViewBag.Statistics.TotalRevenue.ToString("F2")</div>
-                        </div>
-                        <div class="col-auto">
-                            <i class="fas fa-chart-line fa-2x text-gray-300"></i>
-                        </div>
-                    </div>
-                </div>
-            </div>
+    <!-- Simple Header -->
+    <div class="admin-header">
+        <h1>
+            <i class="fas fa-chart-pie"></i>
+            Dashboard <span>Overview</span>
+        </h1>
+        <div class="date-badge">
+            <i class="far fa-calendar"></i>
+            @DateTime.Now.ToString("dd MMM yyyy")
         </div>
     </div>
 
-    <!-- Recent Orders -->
-    <div class="card shadow mb-4">
-        <div class="card-header py-3 d-flex justify-content-between align-items-center">
-            <h6 class="m-0 font-weight-bold text-primary">Recent Orders</h6>
-            <a asp-action="Orders" class="btn btn-sm btn-primary">View All</a>
+    <!-- Simple Stats Row - Will Wrap Automatically -->
+    <div class="stats-row">
+        <div class="stat-box">
+            <div class="label">Total Orders</div>
+            <div class="value">@(ViewBag.Statistics?.TotalOrders ?? 0)</div>
+            <div class="footer">All time</div>
+        </div>
+
+        <div class="stat-box">
+            <div class="label">Pending</div>
+            <div class="value">@(ViewBag.Statistics?.PendingOrders ?? 0)</div>
+            <div class="footer">
+                <a href="@Url.Action("Orders", "Admin", new { status = "Pending", key = Context.Request.Query["key"] })">
+                    View →
+                </a>
+            </div>
+        </div>
+
+        <div class="stat-box">
+            <div class="label">Today's Revenue</div>
+            <div class="value">R @(ViewBag.Statistics?.TodayRevenue?.ToString("N0") ?? "0")</div>
+            <div class="footer">Today's sales</div>
+        </div>
+
+        <div class="stat-box">
+            <div class="label">Total Revenue</div>
+            <div class="value">R @(ViewBag.Statistics?.TotalRevenue?.ToString("N0") ?? "0")</div>
+            <div class="footer">Lifetime earnings</div>
+        </div>
+    </div>
+
+    <!-- Recent Orders Card -->
+    <div class="card">
+        <div class="card-header">
+            <h2>
+                <i class="fas fa-history"></i>
+                Recent Orders
+            </h2>
+            <a href="@Url.Action("Orders", "Admin", new { key = Context.Request.Query["key"] })"
+               class="btn-view">
+                View All Orders
+            </a>
         </div>
         <div class="card-body">
-            <div class="table-responsive">
-                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+            @{
+                var recentOrders = ViewBag.RecentOrders as List<LindisBakery.Models.Order>;
+            }
+
+            @if (recentOrders != null && recentOrders.Any())
+            {
+                <table>
                     <thead>
                         <tr>
                             <th>Order #</th>
                             <th>Customer</th>
                             <th>Date</th>
+                            <th>Items</th>
                             <th>Total</th>
                             <th>Status</th>
                             <th>Action</th>
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach (var order in ViewBag.RecentOrders)
+                        @foreach (var order in recentOrders)
                         {
                             <tr>
-                                <td>@order.OrderNumber</td>
-                                <td>@order.CustomerName</td>
-                                <td>@order.OrderDate.ToString("g")</td>
-                                <td>R @order.Total.ToString("F2")</td>
                                 <td>
-                                    <span class="badge
-                                            @(order.Status == "Pending" ? "badge-warning" :
-                                                                                    order.Status == "Processing" ? "badge-info" :
-                                                                                    order.Status == "Completed" ? "badge-success" :
-                                                                                    "badge-danger")">
-                                    @order.Status
-                                </span>
-                            </td>
-                            <td>
-                                <a asp-action="OrderDetail" asp-route-id="@order.Id"
-                                   class="btn btn-sm btn-info">
-                                    <i class="fas fa-eye"></i> View
-                                </a>
-                            </td>
-                        </tr>
-                                                }
+                                    <span class="order-number">#@order.OrderNumber</span>
+                                </td>
+                                <td>
+                                    <div class="customer-info">
+                                        <div class="avatar">
+                                            @(order.CustomerName?.Substring(0, 1).ToUpper() ?? "?")
+                                        </div>
+                                        <div class="customer-details">
+                                            <div class="name">@order.CustomerName</div>
+                                            <div class="contact">@order.CustomerEmail</div>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>@order.OrderDate.ToString("dd MMM HH:mm")</td>
+                                <td>
+                                    <span class="items-badge">
+                                        <i class="fas fa-box"></i>
+                                        @(order.Items?.Sum(oi => oi.Quantity) ?? 0)
+                                    </span>
+                                </td>
+                                <td class="total">R @order.Total.ToString("N0")</td>
+                                <td>
+                                    <span class="status @order.Status.ToLower()">
+                                        @order.Status
+                                    </span>
+                                </td>
+                                <td>
+                                    <div class="actions">
+                                        <a href="@Url.Action("OrderDetail", "Admin", new { id = order.Id, key = Context.Request.Query["key"] })"
+                                           class="action-btn btn-view-order"
+                                           title="View">
+                                            <i class="fas fa-eye"></i>
+                                        </a>
+                                        <button onclick="openStatusModal(@order.Id, '@order.OrderNumber', '@order.Status', '@order.CustomerName', '@order.Total')"
+                                                class="action-btn btn-edit-order"
+                                                title="Update Status">
+                                            <i class="fas fa-edit"></i>
+                                        </button>
+                                    </div>
+                                </td>
+                            </tr>
+                        }
                     </tbody>
                 </table>
-            </div>
+            }
+            else
+            {
+                <div class="empty-state">
+                    <i class="fas fa-shopping-bag"></i>
+                    <p>No recent orders</p>
+                </div>
+            }
         </div>
     </div>
 </div>
+
+<!-- Simple Status Modal -->
+<div class="modal" id="statusModal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h3><i class="fas fa-edit"></i> Update Order Status</h3>
+        </div>
+        <form action="@Url.Action("UpdateOrderStatus", "Admin")" method="post">
+            <input type="hidden" name="id" id="modalOrderId" />
+            <input type="hidden" name="key" value="@Context.Request.Query["key"]" />
+
+            <div class="modal-body">
+                <div class="form-group">
+                    <label>Order #<span id="modalOrderNumber"></span></label>
+                    <p><small id="modalCustomerInfo"></small></p>
+                </div>
+
+                <div class="form-group">
+                    <label>Status</label>
+                    <select name="status" class="form-control" id="modalStatus">
+                        <option value="Pending">Pending</option>
+                        <option value="Processing">Processing</option>
+                        <option value="Completed">Completed</option>
+                        <option value="Cancelled">Cancelled</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>Notes (Optional)</label>
+                    <textarea name="notes" class="form-control" rows="3" placeholder="Add notes..."></textarea>
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" onclick="closeStatusModal()" class="btn btn-secondary">Cancel</button>
+                <button type="submit" class="btn btn-primary">Update Status</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        function openStatusModal(id, orderNumber, currentStatus, customerName, total) {
+            document.getElementById('modalOrderId').value = id;
+            document.getElementById('modalOrderNumber').textContent = ' ' + orderNumber;
+            document.getElementById('modalCustomerInfo').textContent = customerName + ' - R ' + total;
+            document.getElementById('modalStatus').value = currentStatus;
+            document.getElementById('statusModal').classList.add('show');
+        }
+
+        function closeStatusModal() {
+            document.getElementById('statusModal').classList.remove('show');
+        }
+
+        // Close modal when clicking outside
+        window.onclick = function(event) {
+            var modal = document.getElementById('statusModal');
+            if (event.target == modal) {
+                closeStatusModal();
+            }
+        }
+
+        // Auto-hide alerts
+        setTimeout(() => {
+            document.querySelectorAll('.alert').forEach(alert => {
+                alert.style.display = 'none';
+            });
+        }, 5000);
+    </script>
+}

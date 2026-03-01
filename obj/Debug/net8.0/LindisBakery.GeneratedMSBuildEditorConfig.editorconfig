@@ -32,6 +32,10 @@ build_property.EnableCodeStyleSeverity =
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cRGFzaGJvYXJkLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
+[C:/Users/user/source/repos/LindisBakery/Views/Admin/OrderDetail.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cT3JkZXJEZXRhaWwuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
 [C:/Users/user/source/repos/LindisBakery/Views/Admin/Orders.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cT3JkZXJzLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 

@@ -1,0 +1,192 @@
+﻿@model LindisBakery.Models.Order
+@{
+    ViewData["Title"] = $"Order #{Model.OrderNumber}";
+}
+
+<link rel="stylesheet" href="~/css/admin.css" />
+
+<div class="admin-wrapper">
+
+    <!-- Header with Back Button -->
+    <div class="admin-header">
+        <h1>
+            <i class="fas fa-file-invoice"></i>
+            Order <span>#@Model.OrderNumber</span>
+        </h1>
+        <a href="@Url.Action("Orders", "Admin", new { key = Context.Request.Query["key"] })"
+           class="btn-view">
+            <i class="fas fa-arrow-left"></i> Back to Orders
+        </a>
+    </div>
+
+    <!-- Customer Information Card -->
+    <div class="card">
+        <div class="card-header">
+            <h2><i class="fas fa-user"></i> Customer Information</h2>
+        </div>
+        <div class="card-body">
+            <table style="min-width: auto; width: 100%;">
+                <tr>
+                    <td style="width: 150px; font-weight: 600;">Name:</td>
+                    <td>@Model.CustomerName</td>
+                </tr>
+                <tr>
+                    <td style="font-weight: 600;">Email:</td>
+                    <td>@Model.CustomerEmail</td>
+                </tr>
+                <tr>
+                    <td style="font-weight: 600;">Phone:</td>
+                    <td>@Model.CustomerPhone</td>
+                </tr>
+                <tr>
+                    <td style="font-weight: 600;">Order Date:</td>
+                    <td>@Model.OrderDate.ToString("dddd, dd MMMM yyyy HH:mm")</td>
+                </tr>
+                <tr>
+                    <td style="font-weight: 600;">Status:</td>
+                    <td>
+                        <span class="status @Model.Status.ToLower()">@Model.Status</span>
+                    </td>
+                </tr>
+                @if (!string.IsNullOrEmpty(Model.Notes))
+                {
+                    <tr>
+                        <td style="font-weight: 600;">Notes:</td>
+                        <td>@Model.Notes</td>
+                    </tr>
+                }
+            </table>
+        </div>
+    </div>
+
+    <!-- Order Items Card -->
+    <div class="card">
+        <div class="card-header">
+            <h2><i class="fas fa-shopping-bag"></i> Ordered Items</h2>
+        </div>
+        <div class="card-body">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Product</th>
+                        <th>Price</th>
+                        <th>Quantity</th>
+                        <th>Total</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (Model.Items != null && Model.Items.Any())
+                    {
+                        foreach (var item in Model.Items)
+                        {
+                            <tr>
+                                <td>
+                                    <div class="customer-info">
+                                        @if (!string.IsNullOrEmpty(item.ProductName))
+                                        {
+                                            <div class="avatar">
+                                                @item.ProductName.Substring(0, 1).ToUpper()
+                                            </div>
+                                        }
+                                        <div class="customer-details">
+                                            <div class="name">@item.ProductName</div>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>R @item.UnitPrice.ToString("N2")</td>
+                                <td>@item.Quantity</td>
+                                <td class="total">R @item.TotalPrice.ToString("N2")</td>
+                            </tr>
+                        }
+                    }
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <td colspan="3" style="text-align: right; font-weight: 600;">Subtotal:</td>
+                        <td class="total">R @Model.Subtotal.ToString("N2")</td>
+                    </tr>
+                    <tr>
+                        <td colspan="3" style="text-align: right; font-weight: 600;">Delivery Fee:</td>
+                        <td class="total">R @Model.DeliveryFee.ToString("N2")</td>
+                    </tr>
+                    <tr>
+                        <td colspan="3" style="text-align: right; font-weight: 600; font-size: 1.1em;">Total:</td>
+                        <td class="total" style="font-size: 1.2em;">R @Model.Total.ToString("N2")</td>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+    </div>
+
+    <!-- Action Buttons -->
+    <div style="display: flex; gap: 10px; justify-content: flex-end; margin-top: 20px;">
+        <button onclick="openStatusModal(@Model.Id, '@Model.OrderNumber', '@Model.Status', '@Model.CustomerName', '@Model.Total')"
+                class="btn-view"
+                style="background: var(--pink);">
+            <i class="fas fa-edit"></i> Update Status
+        </button>
+    </div>
+</div>
+
+<!-- Status Update Modal -->
+<div class="modal" id="statusModal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h3><i class="fas fa-edit"></i> Update Order Status</h3>
+        </div>
+        <form action="@Url.Action("UpdateOrderStatus", "Admin")" method="post">
+            <input type="hidden" name="id" id="modalOrderId" />
+            <input type="hidden" name="key" value="@Context.Request.Query["key"]" />
+
+            <div class="modal-body">
+                <div class="form-group">
+                    <label>Order #<span id="modalOrderNumber"></span></label>
+                    <p><small id="modalCustomerInfo"></small></p>
+                </div>
+
+                <div class="form-group">
+                    <label>Status</label>
+                    <select name="status" class="form-control" id="modalStatus">
+                        <option value="Pending">⏳ Pending</option>
+                        <option value="Processing">⚙️ Processing</option>
+                        <option value="Completed">✅ Completed</option>
+                        <option value="Cancelled">❌ Cancelled</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>Notes (Optional)</label>
+                    <textarea name="notes" class="form-control" rows="3" placeholder="Add notes about this order..."></textarea>
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" onclick="closeStatusModal()" class="btn btn-secondary">Cancel</button>
+                <button type="submit" class="btn btn-primary">Update Status</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        function openStatusModal(id, orderNumber, currentStatus, customerName, total) {
+            document.getElementById('modalOrderId').value = id;
+            document.getElementById('modalOrderNumber').textContent = ' ' + orderNumber;
+            document.getElementById('modalCustomerInfo').textContent = customerName + ' - R ' + total;
+            document.getElementById('modalStatus').value = currentStatus;
+            document.getElementById('statusModal').classList.add('show');
+        }
+
+        function closeStatusModal() {
+            document.getElementById('statusModal').classList.remove('show');
+        }
+
+        window.onclick = function(event) {
+            var modal = document.getElementById('statusModal');
+            if (event.target == modal) {
+                closeStatusModal();
+            }
+        }
+    </script>
+}

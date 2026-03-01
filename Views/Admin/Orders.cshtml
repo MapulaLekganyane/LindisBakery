@@ -1,47 +1,74 @@
 ﻿@model List<LindisBakery.Models.Order>
 @{
-    ViewData["Title"] = "Manage Orders";
+    ViewData["Title"] = "Orders";
 }
 
-<div class="container-fluid">
-    <h1 class="h3 mb-4">Manage Orders</h1>
+<link rel="stylesheet" href="~/css/admin.css" />
 
-    <!-- Status Filter -->
-    <div class="card mb-4">
-        <div class="card-body">
-            <div class="btn-group" role="group">
-                <a asp-action="Orders" asp-route-status="All"
-                   class="btn @(ViewBag.SelectedStatus == null ? "btn-primary" : "btn-outline-primary")">
-                    All (@ViewBag.StatusCounts.All)
-                </a>
-                <a asp-action="Orders" asp-route-status="Pending"
-                   class="btn @(ViewBag.SelectedStatus == "Pending" ? "btn-warning" : "btn-outline-warning")">
-                    Pending (@ViewBag.StatusCounts.Pending)
-                </a>
-                <a asp-action="Orders" asp-route-status="Processing"
-                   class="btn @(ViewBag.SelectedStatus == "Processing" ? "btn-info" : "btn-outline-info")">
-                    Processing (@ViewBag.StatusCounts.Processing)
-                </a>
-                <a asp-action="Orders" asp-route-status="Completed"
-                   class="btn @(ViewBag.SelectedStatus == "Completed" ? "btn-success" : "btn-outline-success")">
-                    Completed (@ViewBag.StatusCounts.Completed)
-                </a>
-                <a asp-action="Orders" asp-route-status="Cancelled"
-                   class="btn @(ViewBag.SelectedStatus == "Cancelled" ? "btn-danger" : "btn-outline-danger")">
-                    Cancelled (@ViewBag.StatusCounts.Cancelled)
-                </a>
-            </div>
+<div class="admin-wrapper">
+
+    <!-- Header -->
+    <div class="admin-header">
+        <h1>
+            <i class="fas fa-clipboard-list"></i>
+            Manage <span>Orders</span>
+        </h1>
+        <div class="search-box">
+            <input type="text" id="searchInput" placeholder="Search orders...">
         </div>
     </div>
 
+    <!-- Alerts -->
+    @if (TempData["SuccessMessage"] != null)
+    {
+        <div class="alert success">
+            <i class="fas fa-check-circle"></i> @TempData["SuccessMessage"]
+        </div>
+    }
+    @if (TempData["ErrorMessage"] != null)
+    {
+        <div class="alert error">
+            <i class="fas fa-exclamation-circle"></i> @TempData["ErrorMessage"]
+        </div>
+    }
+
+    <!-- Simple Filters -->
+    <div class="filters">
+        <a href="@Url.Action("Orders", "Admin", new { status = "All", key = Context.Request.Query["key"] })"
+           class="filter-btn @(string.IsNullOrEmpty(ViewBag.SelectedStatus?.ToString()) || ViewBag.SelectedStatus?.ToString() == "All" ? "active" : "")">
+            All (@(ViewBag.StatusCounts?.All ?? 0))
+        </a>
+        <a href="@Url.Action("Orders", "Admin", new { status = "Pending", key = Context.Request.Query["key"] })"
+           class="filter-btn @(ViewBag.SelectedStatus?.ToString() == "Pending" ? "active" : "")">
+            Pending (@(ViewBag.StatusCounts?.Pending ?? 0))
+        </a>
+        <a href="@Url.Action("Orders", "Admin", new { status = "Processing", key = Context.Request.Query["key"] })"
+           class="filter-btn @(ViewBag.SelectedStatus?.ToString() == "Processing" ? "active" : "")">
+            Processing (@(ViewBag.StatusCounts?.Processing ?? 0))
+        </a>
+        <a href="@Url.Action("Orders", "Admin", new { status = "Completed", key = Context.Request.Query["key"] })"
+           class="filter-btn @(ViewBag.SelectedStatus?.ToString() == "Completed" ? "active" : "")">
+            Completed (@(ViewBag.StatusCounts?.Completed ?? 0))
+        </a>
+        <a href="@Url.Action("Orders", "Admin", new { status = "Cancelled", key = Context.Request.Query["key"] })"
+           class="filter-btn @(ViewBag.SelectedStatus?.ToString() == "Cancelled" ? "active" : "")">
+            Cancelled (@(ViewBag.StatusCounts?.Cancelled ?? 0))
+        </a>
+    </div>
+
     <!-- Orders Table -->
-    <div class="card shadow">
-        <div class="card-header py-3">
-            <h6 class="m-0 font-weight-bold text-primary">Orders List</h6>
+    <div class="card">
+        <div class="card-header">
+            <h2>
+                <i class="fas fa-list"></i>
+                Orders List
+            </h2>
+            <span>Total: @Model.Count orders</span>
         </div>
         <div class="card-body">
-            <div class="table-responsive">
-                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+            @if (Model.Any())
+            {
+                <table id="ordersTable">
                     <thead>
                         <tr>
                             <th>Order #</th>
@@ -59,72 +86,143 @@
                         @foreach (var order in Model)
                         {
                             <tr>
-                                <td>@order.OrderNumber</td>
-                                <td>@order.CustomerName</td>
+                                <td>
+                                    <span class="order-number">#@order.OrderNumber</span>
+                                </td>
+                                <td>
+                                    <div class="customer-info">
+                                        <div class="avatar">
+                                            @(order.CustomerName?.Substring(0, 1).ToUpper() ?? "?")
+                                        </div>
+                                        <div class="customer-details">
+                                            <div class="name">@order.CustomerName</div>
+                                        </div>
+                                    </div>
+                                </td>
                                 <td>@order.CustomerEmail</td>
                                 <td>@order.CustomerPhone</td>
-                                <td>@order.OrderDate.ToString("g")</td>
-                                <td>@order.Items.Sum(oi => oi.Quantity)</td>
-                                <td>R @order.Total.ToString("F2")</td>
+                                <td>@order.OrderDate.ToString("dd MMM yyyy")<br><small>@order.OrderDate.ToString("HH:mm")</small></td>
                                 <td>
-                                    <span class="badge
-                                            @(order.Status == "Pending" ? "badge-warning" :
-                                                                                    order.Status == "Processing" ? "badge-info" :
-                                                                                    order.Status == "Completed" ? "badge-success" :
-                                                                                    "badge-danger")">
-                                    @order.Status
-                                </span>
-                            </td>
-                            <td>
-                                <a asp-action="OrderDetail" asp-route-id="@order.Id"
-                                   class="btn btn-sm btn-info">
-                                    <i class="fas fa-eye"></i>
-                                </a>
-                                <button type="button" class="btn btn-sm btn-primary"
-                                        data-toggle="modal" data-target="#statusModal-@order.Id">
-                                    <i class="fas fa-edit"></i>
-                                </button>
-                            </td>
-                        </tr>
-
-                            <!-- Status Update Modal -->
-                            <div class="modal fade" id="statusModal-@order.Id" tabindex="-1" role="dialog">
-                                <div class="modal-dialog" role="document">
-                                    <div class="modal-content">
-                                        <div class="modal-header">
-                                            <h5 class="modal-title">Update Order Status</h5>
-                                            <button type="button" class="close" data-dismiss="modal">
-                                                <span>&times;</span>
-                                            </button>
-                                        </div>
-                                        <form asp-action="UpdateOrderStatus" asp-route-id="@order.Id" method="post">
-                                            <div class="modal-body">
-                                                <div class="form-group">
-                                                    <label>Status</label>
-                                                    <select name="status" class="form-control">
-                                                        <option value="Pending" selected="@(order.Status == "Pending")">Pending</option>
-                                                        <option value="Processing" selected="@(order.Status == "Processing")">Processing</option>
-                                                        <option value="Completed" selected="@(order.Status == "Completed")">Completed</option>
-                                                        <option value="Cancelled" selected="@(order.Status == "Cancelled")">Cancelled</option>
-                                                    </select>
-                                                </div>
-                                                <div class="form-group">
-                                                    <label>Notes (Optional)</label>
-                                                    <textarea name="notes" class="form-control" rows="3"></textarea>
-                                                </div>
-                                            </div>
-                                            <div class="modal-footer">
-                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                                <button type="submit" class="btn btn-primary">Update Status</button>
-                                            </div>
-                                        </form>
+                                    <span class="items-badge">
+                                        @(order.Items?.Sum(oi => oi.Quantity) ?? 0) items
+                                    </span>
+                                </td>
+                                <td class="total">R @order.Total.ToString("N0")</td>
+                                <td>
+                                    <span class="status @order.Status.ToLower()">
+                                        @order.Status
+                                    </span>
+                                </td>
+                                <td>
+                                    <div class="actions">
+                                        <a href="@Url.Action("OrderDetail", "Admin", new { id = order.Id, key = Context.Request.Query["key"] })"
+                                           class="action-btn btn-view-order"
+                                           title="View">
+                                            <i class="fas fa-eye"></i>
+                                        </a>
+                                        <button onclick="openStatusModal(@order.Id, '@order.OrderNumber', '@order.Status', '@order.CustomerName', '@order.Total')"
+                                                class="action-btn btn-edit-order"
+                                                title="Update Status">
+                                            <i class="fas fa-edit"></i>
+                                        </button>
                                     </div>
-                                </div>
-                            </div>
-                                                }
+                                </td>
+                            </tr>
+                        }
                     </tbody>
                 </table>
-            </div>
+            }
+            else
+            {
+                <div class="empty-state">
+                    <i class="fas fa-shopping-bag"></i>
+                    <p>No orders found</p>
+                </div>
+            }
         </div>
     </div>
 </div>
+
+<!-- Status Modal (same as dashboard) -->
+<div class="modal" id="statusModal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h3><i class="fas fa-edit"></i> Update Order Status</h3>
+        </div>
+        <!-- In the modal section, update the form action to be explicit -->
+        <form action="/admin/orders/update-status" method="post">
+            <input type="hidden" name="id" id="modalOrderId" />
+            <input type="hidden" name="key" value="@Context.Request.Query["key"]" />
+
+            <div class="modal-body">
+                <div class="form-group">
+                    <label>Order #<span id="modalOrderNumber"></span></label>
+                    <p><small id="modalCustomerInfo"></small></p>
+                </div>
+
+                <div class="form-group">
+                    <label>Status</label>
+                    <select name="status" class="form-control" id="modalStatus">
+                        <option value="Pending">⏳ Pending</option>
+                        <option value="Processing">⚙️ Processing</option>
+                        <option value="Completed">✅ Completed</option>
+                        <option value="Cancelled">❌ Cancelled</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>Notes (Optional)</label>
+                    <textarea name="notes" class="form-control" rows="3"></textarea>
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" onclick="closeStatusModal()" class="btn btn-secondary">Cancel</button>
+                <button type="submit" class="btn btn-primary">Update Status</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        // Search functionality
+        document.getElementById('searchInput')?.addEventListener('keyup', function() {
+            let search = this.value.toLowerCase();
+            let rows = document.querySelectorAll('#ordersTable tbody tr');
+
+            rows.forEach(row => {
+                let text = row.textContent.toLowerCase();
+                row.style.display = text.includes(search) ? '' : 'none';
+            });
+        });
+
+        // Modal functions
+        function openStatusModal(id, orderNumber, currentStatus, customerName, total) {
+            document.getElementById('modalOrderId').value = id;
+            document.getElementById('modalOrderNumber').textContent = ' ' + orderNumber;
+            document.getElementById('modalCustomerInfo').textContent = customerName + ' - R ' + total;
+            document.getElementById('modalStatus').value = currentStatus;
+            document.getElementById('statusModal').classList.add('show');
+        }
+
+        function closeStatusModal() {
+            document.getElementById('statusModal').classList.remove('show');
+        }
+
+        // Close modal on outside click
+        window.onclick = function(event) {
+            var modal = document.getElementById('statusModal');
+            if (event.target == modal) {
+                closeStatusModal();
+            }
+        }
+
+        // Auto-hide alerts
+        setTimeout(() => {
+            document.querySelectorAll('.alert').forEach(alert => {
+                alert.style.display = 'none';
+            });
+        }, 5000);
+    </script>
+}

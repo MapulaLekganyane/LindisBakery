@@ -16,20 +16,29 @@ namespace LindisBakery.Controllers
         private readonly IOrderRepository _orderRepository;
         private readonly ApplicationDbContext _context;
         private readonly ILogger<AdminController> _logger;
+        private readonly IConfiguration _configuration;
 
         public AdminController(
             IOrderRepository orderRepository,
             ApplicationDbContext context,
-            ILogger<AdminController> logger)
+            ILogger<AdminController> logger,
+            IConfiguration configuration)
         {
             _orderRepository = orderRepository;
             _context = context;
             _logger = logger;
+            _configuration = configuration;
         }
 
+
         [HttpGet("dashboard")]
-        public async Task<IActionResult> Dashboard()
+        public async Task<IActionResult> Dashboard(string key)
         {
+            var secretKey = _configuration["AdminSettings:SecretKey"];
+
+            if (key != secretKey)
+                return Unauthorized();
+
             var stats = await _orderRepository.GetOrderStatisticsAsync();
             var recentOrders = await _orderRepository.GetRecentOrdersAsync(5);
 
@@ -39,9 +48,24 @@ namespace LindisBakery.Controllers
             return View();
         }
 
+
+
         [HttpGet("orders")]
-        public async Task<IActionResult> Orders(string status = null)
+        public async Task<IActionResult> Orders(string key, string status = null)
         {
+            var secretKey = _configuration["AdminSettings:SecretKey"];
+
+            if (key != secretKey)
+                return Unauthorized();
+
+            var stats = await _orderRepository.GetOrderStatisticsAsync();
+            var recentOrders = await _orderRepository.GetRecentOrdersAsync(5);
+
+            // Ensure stats is of type OrderStatistics
+            ViewBag.Statistics = stats;
+            ViewBag.RecentOrders = recentOrders;
+
+
             IQueryable<Order> ordersQuery = _context.Orders
                 .Include(o => o.Items)
                 .OrderByDescending(o => o.OrderDate);
@@ -67,6 +91,8 @@ namespace LindisBakery.Controllers
             return View(orders);
         }
 
+
+
         [HttpGet("orders/{id}")]
         public async Task<IActionResult> OrderDetail(int id)
         {
@@ -79,6 +105,8 @@ namespace LindisBakery.Controllers
 
             return View(order);
         }
+
+
 
         [HttpGet("orders/number/{orderNumber}")]
         public async Task<IActionResult> OrderDetailByNumber(string orderNumber)
@@ -93,22 +121,59 @@ namespace LindisBakery.Controllers
             return View("OrderDetail", order);
         }
 
-        [HttpPost("orders/{id}/update-status")]
-        public async Task<IActionResult> UpdateOrderStatus(int id, string status, string notes = null)
+
+        [HttpPost("orders/update-status")]
+        public async Task<IActionResult> UpdateOrderStatus(int id, string key, string status, string notes = null)
         {
+            var secretKey = _configuration["AdminSettings:SecretKey"];
+
+            if (key != secretKey)
+                return Unauthorized();
+
+            var validStatuses = new[] { "Pending", "Processing", "Completed", "Cancelled" };
+
+            if (!validStatuses.Contains(status))
+            {
+                TempData["ErrorMessage"] = "Invalid status selected.";
+                return RedirectToAction("Orders", new { key = key });
+            }
+
             try
             {
-                await _orderRepository.UpdateOrderStatusAsync(id, status, notes);
-                TempData["SuccessMessage"] = $"Order status updated to {status}";
+                var order = await _context.Orders.FindAsync(id);
+
+                if (order == null)
+                {
+                    TempData["ErrorMessage"] = "Order not found.";
+                    return RedirectToAction("Orders", new { key = key });
+                }
+
+                order.Status = status;
+
+                if (status == "Completed")
+                {
+                    order.CompletedDate = DateTime.Now;
+                }
+
+                if (!string.IsNullOrEmpty(notes))
+                {
+                    order.Notes = notes;
+                }
+
+                await _context.SaveChangesAsync();
+
+                TempData["SuccessMessage"] = $"Order #{order.OrderNumber} updated to {status}.";
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error updating order status");
-                TempData["ErrorMessage"] = "Error updating order status";
+                TempData["ErrorMessage"] = "Error updating order.";
             }
 
-            return RedirectToAction("OrderDetail", new { id });
+            return RedirectToAction("Orders", new { key = key });
         }
+
+
 
         [HttpGet("products")]
         public async Task<IActionResult> Products()
@@ -116,6 +181,8 @@ namespace LindisBakery.Controllers
             var products = await _context.Products.ToListAsync();
             return View(products);
         }
+
+
 
         [HttpGet("analytics")]
         public async Task<IActionResult> Analytics()

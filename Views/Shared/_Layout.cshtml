@@ -13,17 +13,7 @@
 
 </head>
 
-<script>
-    document.addEventListener("DOMContentLoaded", function () {
-        const hamburger = document.querySelector("#header .hamburger");
-        const navMenu = document.querySelector("#header .nav-list ul");
 
-        hamburger.addEventListener("click", function () {
-            hamburger.classList.toggle("active");
-            navMenu.classList.toggle("active");
-        });
-    });
-</script>
 
 <body>
 
@@ -75,7 +65,7 @@
             <div class="brand">
                 <h1>Lindi's Home Bakery </h1>
             </div>
-            <h2>Love and flavor</h2>
+            @* <h2>Love and flavor</h2> *@
 
            
             <p>Copyright © 2025 Lindi's Home bakery. All rights reserved</p>
@@ -98,3 +88,15 @@
     
 </body>
 </html>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const hamburger = document.querySelector("#header .hamburger");
+        const navMenu = document.querySelector("#header .nav-list ul");
+
+        hamburger.addEventListener("click", function () {
+            hamburger.classList.toggle("active");
+            navMenu.classList.toggle("active");
+        });
+    });
+</script>
