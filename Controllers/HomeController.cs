@@ -36,8 +36,21 @@ namespace LindisBakery.Controllers
         // ===========================
         public IActionResult Index()
         {
-            var products = _context.Products.Where(p => p.IsAvailable).ToList();
-            return View(products);
+            try
+            {
+                var products = _context.Products
+                    .Where(p => p.IsAvailable)
+                    .ToList();
+
+                return View(products);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error loading products on Home page");
+
+                // fallback so the site NEVER crashes
+                return View(new List<Product>());
+            }
         }
 
         public IActionResult Menu(string? category = null)
