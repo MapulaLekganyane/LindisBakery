@@ -25,6 +25,11 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"))
 );
 
+builder.WebHost.ConfigureKestrel(options =>
+{
+    options.ListenAnyIP(8080);
+});
+
 var app = builder.Build();   // <-- MUST be here
 
 // Configure the HTTP request pipeline.
@@ -34,7 +39,7 @@ if (!app.Environment.IsDevelopment())
     app.UseHsts();
 }
 
-app.UseHttpsRedirection();
+//app.UseHttpsRedirection();
 app.UseStaticFiles();
 app.UseRouting();
 app.UseSession();
