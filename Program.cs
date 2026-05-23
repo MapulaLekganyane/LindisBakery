@@ -25,10 +25,7 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"))
 );
 
-builder.WebHost.ConfigureKestrel(options =>
-{
-    options.ListenAnyIP(8080);
-});
+
 
 var app = builder.Build();   // <-- MUST be here
 
@@ -51,11 +48,11 @@ app.MapControllerRoute(
 );
 
 // Seed database
-using (var scope = app.Services.CreateScope())
-{
-    var dbContext = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
-    dbContext.Database.Migrate();
-}
+//using (var scope = app.Services.CreateScope())
+//{
+  //  var dbContext = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+   //dbContext.Database.Migrate();
+//}
 
 
 app.Run();  // <-- MUST be last
