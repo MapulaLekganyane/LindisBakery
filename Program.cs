@@ -22,22 +22,22 @@ builder.Services.AddSession(options =>
 });
 
 //FOR RENDER HOSTING
-builder.Services.AddDbContext<ApplicationDbContext>(options =>
-    options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection"))
-);
-
-//FOR LOCAL HOSTING
 //builder.Services.AddDbContext<ApplicationDbContext>(options =>
-//    options.UseSqlServer(
-//        builder.Configuration.GetConnectionString("LocalConnection"))
+//    options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection"))
 //);
 
+//FOR LOCAL HOSTING
+builder.Services.AddDbContext<ApplicationDbContext>(options =>
+    options.UseSqlServer(
+        builder.Configuration.GetConnectionString("LocalConnection"))
+);
+
 //FOR RENDER HOSTING
-var port = Environment.GetEnvironmentVariable("PORT") ?? "8080";
-builder.WebHost.ConfigureKestrel(options =>
-{
-    options.ListenAnyIP(int.Parse(port));
-});
+//var port = Environment.GetEnvironmentVariable("PORT") ?? "8080";
+//builder.WebHost.ConfigureKestrel(options =>
+//{
+//    options.ListenAnyIP(int.Parse(port));
+//});
 
 var app = builder.Build();   // <-- MUST be here
 

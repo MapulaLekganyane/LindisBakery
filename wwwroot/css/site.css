@@ -1523,6 +1523,46 @@ form.d-inline {
     object-fit: cover;
 }
 
+/* REAL MOBILE FIX (phones under 576px) */
+@media (max-width: 576px) {
+
+    /* Category filter buttons */
+    .mb-4.text-center {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 8px;
+        padding: 0 10px;
+    }
+
+        .mb-4.text-center .btn {
+            font-size: 1.2rem;
+            padding: 8px 14px;
+            white-space: nowrap;
+        }
+
+    /* Prevent ANY overlap from containers */
+    .container {
+        padding-left: 12px;
+        padding-right: 12px;
+    }
+
+    /* Cards full width */
+    .col-md-4 {
+        width: 100%;
+    }
+
+    /* Fix header overlap risk */
+    #header .nav-bar {
+        flex-wrap: wrap;
+    }
+
+    /* Make title not push layout */
+    .brand h1 {
+        font-size: 1.8rem;
+    }
+}
+
 /* MOBILE MENU FILTER FIX */
 @media (max-width: 768px) {
 
@@ -1530,6 +1570,7 @@ form.d-inline {
     #contact .contact {
         flex-direction: column;
         padding: 100px 0;
+    }
 
         /* Category buttons container */
         .mb-4.text-center {
