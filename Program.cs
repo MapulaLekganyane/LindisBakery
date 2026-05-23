@@ -26,7 +26,7 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection"))
 );
 
-////FOR LOCAL HOSTING
+//FOR LOCAL HOSTING
 //builder.Services.AddDbContext<ApplicationDbContext>(options =>
 //    options.UseSqlServer(
 //        builder.Configuration.GetConnectionString("LocalConnection"))

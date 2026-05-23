@@ -1,6 +1,7 @@
-@import 'https://fonts.googleapis.com/css?family=Montserrat:300, 400, 700&display=swap';
+@import url('https://fonts.googleapis.com/css?family=Montserrat:300,400,700&display=swap');
 
 * {
+    font-family: 'Montserrat', sans-serif;
     padding: 0;
     margin: 0;
     box-sizing: border-box;
@@ -465,21 +466,24 @@ p {
     }
 
 #contact .icon {
-    width: 70px;
-    margin: 0 auto;
-    margin-bottom: 10px;
+    width: 60px;
+    height: 60px;
+    flex-shrink: 0;
+    display: block; /* Ensure icon is always visible */
+}
+
+#contact .contact-info {
+    flex: 1;
 }
 
 #contact .contact-info h1 {
-    font-size: 2.5rem;
-    font-weight: 500;
+    font-size: 1.5rem;
     margin-bottom: 5px;
 }
 
 #contact .contact-info h2 {
     font-size: 1.3rem;
-    line-height: 2rem;
-    font-weight: 500;
+    word-break: break-word;
 }
 
     #contact .contact-info h2 a:hover {
@@ -660,15 +664,19 @@ p {
 #contact .contact-items {
     width: 100%;
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     justify-content: space-evenly;
-    margin: 0;
+    gap: 20px;
 }
 
 #contact .contact-item {
-    width: 30%;
+    display: flex;
+    flex-direction: row; /* Always horizontal */
+    align-items: center;
+    gap: 20px;
+    width: 100%;
+    padding: 20px;
     margin: 0;
-    flex-direction: row;
 }
 
     #contact .contact-item .icon {
@@ -1082,7 +1090,13 @@ p {
 }
 
 .card-body {
-    padding: 25px;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.product-col {
+    display: flex;
 }
 
 .card-footer {
@@ -1265,7 +1279,7 @@ hr {
 }
 
 .cart-count-badge {
-    background-color:#f5f2f0; /* Bootstrap danger */
+    /*background-color:#f5f2f0;*/ /* Bootstrap danger */
     color: #fff;
     font-size: 0.75rem;
     font-weight: 600;
@@ -1509,18 +1523,19 @@ form.d-inline {
     gap: 1.5rem;
 }
 
-.product-card {
-    display: flex;
-}
-
+.product-card,
 .card {
-    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
 }
 
 /* Enforce uniform image size */
 .card-img-top {
     height: 200px;
+    width: 100%;
     object-fit: cover;
+    flex-shrink: 0;
 }
 
 /* REAL MOBILE FIX (phones under 576px) */
@@ -1632,5 +1647,32 @@ form.d-inline {
     /* Prevent horizontal scrolling */
     body {
         overflow-x: hidden;
+    }
+}
+
+/* Tablet and up - grid layout */
+@media only screen and (min-width: 768px) {
+    #contact .contact-items {
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+
+    #contact .contact-item {
+        width: calc(50% - 40px);
+    }
+}
+
+@media only screen and (min-width: 1024px) {
+    #contact .contact-item {
+        width: calc(25% - 40px);
+    }
+}
+
+/* Fix email wrapping on very small screens */
+@media only screen and (max-width: 380px) {
+    #contact .contact-info h2 a {
+        font-size: 1rem;
+        word-break: break-all;
     }
 }
