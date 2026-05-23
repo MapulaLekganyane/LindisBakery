@@ -651,8 +651,7 @@ p {
 
 /* contact  */
 #contact .contact {
-    flex-direction: column;
-    padding: 100px 0;
+    
     align-items: center;
     justify-content: center;
     min-width: 20vh;
@@ -1266,7 +1265,7 @@ hr {
 }
 
 .cart-count-badge {
-    background-color:#f5f2f0 /* Bootstrap danger */
+    background-color:#f5f2f0; /* Bootstrap danger */
     color: #fff;
     font-size: 0.75rem;
     font-weight: 600;
@@ -1522,4 +1521,55 @@ form.d-inline {
 .card-img-top {
     height: 200px;
     object-fit: cover;
+}
+
+/* MOBILE MENU FILTER FIX */
+@media (max-width: 768px) {
+
+    /* contact  */
+    #contact .contact {
+        flex-direction: column;
+        padding: 100px 0;
+
+        /* Category buttons container */
+        .mb-4.text-center {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 10px;
+    }
+
+        /* Category buttons */
+        .mb-4.text-center .btn {
+            margin: 0 !important;
+            white-space: nowrap;
+        }
+
+    /* Product cards full width on phones */
+    .col-md-4 {
+        width: 100%;
+        padding: 0 10px 20px;
+    }
+
+    /* Cart controls stack nicely */
+    .cart-controls {
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+
+        /* Add to cart button mobile */
+        .cart-controls .btn-success {
+            width: 100%;
+            margin-top: 10px;
+        }
+
+    /* Prevent header text overflow */
+    .brand h1 {
+        font-size: 2rem;
+    }
+
+    /* Prevent horizontal scrolling */
+    body {
+        overflow-x: hidden;
+    }
 }

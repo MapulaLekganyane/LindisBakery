@@ -21,10 +21,18 @@ builder.Services.AddSession(options =>
     options.Cookie.IsEssential = true;
 });
 
+//FOR RENDER HOSTING
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection"))
 );
 
+//FOR LOCAL HOSTING
+//builder.Services.AddDbContext<ApplicationDbContext>(options =>
+//    options.UseSqlServer(
+//        builder.Configuration.GetConnectionString("LocalConnection"))
+//);
+
+//FOR RENDER HOSTING
 var port = Environment.GetEnvironmentVariable("PORT") ?? "8080";
 builder.WebHost.ConfigureKestrel(options =>
 {
