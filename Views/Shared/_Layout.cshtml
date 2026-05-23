@@ -3,100 +3,133 @@
 @{
     Layout = null;
 }
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Lindi's Bakery - @ViewData["Title"]</title>
-    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
 
+    <link rel="stylesheet"
+          href="~/css/site.css"
+          asp-append-version="true" />
 </head>
-
-
 
 <body>
 
     <!-- Header -->
     <section id="header">
-        <div class="header container">
+        <div class="header">
             <div class="nav-bar">
+
                 <div class="brand">
-                    <a href="#hero">
+                    <a asp-controller="Home" asp-action="Index">
                         <h1>Lindi's Home Bakery</h1>
                     </a>
                 </div>
-                <div class="hamburger">
-                    <div class="bar"></div>
-                </div>
 
                 <div class="nav-list">
+
+                    <!-- HAMBURGER MOVED INSIDE nav-list -->
+                    <div class="hamburger">
+                        <div class="bar"></div>
+                    </div>
+
                     <ul>
-                        <li><a asp-controller="Home" asp-action="Index">Home</a></li>
-                        <li><a asp-controller="Home" asp-action="Menu">Menu</a></li>
-                        <li><a asp-controller="Home" asp-action="About">About Us</a></li>
-                        <li><a asp-controller="Home" asp-action="Contacts">Contact</a></li>
-                       <li> <a asp-controller="Home" asp-action="Cart" class="cart-link">
-                            <i class="bi bi-cart3"></i>
-                            <span class="cart-text">Cart</span>
-                            <span id="cart-count" class="cart-count-badge">0</span></a>
+                        <li>
+                            <a asp-controller="Home" asp-action="Index">
+                                Home
+                            </a>
+                        </li>
+
+                        <li>
+                            <a asp-controller="Home" asp-action="Menu">
+                                Menu
+                            </a>
+                        </li>
+
+                        <li>
+                            <a asp-controller="Home" asp-action="About">
+                                About Us
+                            </a>
+                        </li>
+
+                        <li>
+                            <a asp-controller="Home" asp-action="Contacts">
+                                Contact
+                            </a>
+                        </li>
+
+                        <li>
+                            <a asp-controller="Home"
+                               asp-action="Cart"
+                               class="cart-link">
+
+                                <i class="bi bi-cart3"></i>
+
+                                <span class="cart-text">
+                                    Cart
+                                </span>
+
+                                <span id="cart-count"
+                                      class="cart-count-badge">
+                                    0
+                                </span>
+
+                            </a>
                         </li>
                     </ul>
+
                 </div>
             </div>
         </div>
     </section>
     <!-- End Header -->
-   
 
-    <main class="container main-content">
-        
+
+    <main class="main-content">
         @RenderBody()
     </main>
 
+
+    <!-- Toast -->
     <div id="cartToast" class="cart-toast">
-    ✔ Added to cart
-</div>
+        ✔ Added to cart
+    </div>
 
 
     <!-- Footer -->
     <section id="footer">
         <div class="footer container">
-            <div class="brand">
-                <h1>Lindi's Home Bakery </h1>
-            </div>
-            @* <h2>Love and flavor</h2> *@
 
-           
-            <p>Copyright © 2025 Lindi's Home bakery. All rights reserved</p>
+            <div class="brand">
+                <h1>Lindi's Home Bakery</h1>
+            </div>
+
+            <h2>Love and flavor</h2>
+
+            <p>
+                Copyright © 2025 Lindi's Home Bakery.
+                All rights reserved
+            </p>
+
         </div>
     </section>
 
-    <script src="~/js/site.js" asp-append-version="true"></script>
-    
 
+    <!-- ONLY ONE site.js -->
+    <script src="~/js/site.js"
+            asp-append-version="true"></script>
+
+    <!-- Validation Scripts -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.5/jquery.validate.min.js"></script>
+
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validation-unobtrusive/4.0.0/jquery.validate.unobtrusive.min.js"></script>
 
     @RenderSection("Scripts", required: false)
 
-  
-
-    
-
-    
 </body>
 </html>
-
-<script>
-    document.addEventListener("DOMContentLoaded", function () {
-        const hamburger = document.querySelector("#header .hamburger");
-        const navMenu = document.querySelector("#header .nav-list ul");
-
-        hamburger.addEventListener("click", function () {
-            hamburger.classList.toggle("active");
-            navMenu.classList.toggle("active");
-        });
-    });
-</script>
