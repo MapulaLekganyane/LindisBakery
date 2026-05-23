@@ -1,4 +1,3 @@
-C:\Users\user\source\repos\LindisBakery\bin\Debug\net8.0\appsettings.Development.json
 C:\Users\user\source\repos\LindisBakery\bin\Debug\net8.0\appsettings.json
 C:\Users\user\source\repos\LindisBakery\bin\Debug\net8.0\LindisBakery.staticwebassets.runtime.json
 C:\Users\user\source\repos\LindisBakery\bin\Debug\net8.0\LindisBakery.staticwebassets.endpoints.json
